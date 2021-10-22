@@ -9,7 +9,7 @@ class lights{
     addLight(pos,radiance)
     {
         this.size++;
-        this.lightPoss.push(pos);
-        this.lightRadiances.push(radiance);
+        this.lightPoss.push.apply(this.lightPoss,pos);
+        this.lightRadiances.push.apply(this.lightRadiances,radiance);
     }
 }

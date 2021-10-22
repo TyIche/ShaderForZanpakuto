@@ -99,7 +99,7 @@ void main(void) {
     vec3 tmpColor = vec3(0.0);
     for(int i = 0;i<100;i++)
     {
-        uLightPos[i].z < 0.0;
+        uLightRadiance[i].z < 0.0;
         vec3 L = normalize(uLightPos[i] - vFragPos);
         vec3 H = normalize(V + L);
         float NdotL = max(dot(N, L), 0.0); 

@@ -65,13 +65,14 @@ async function GAMES202Main() {
 	let lightUp = [1, 0, 0];
 
 	Lights.addLight(lightPos,lightRadiance);
-	const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
-	renderer.addLight(directionLight);
+	Lights.addLight();
+	// const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
+	// renderer.addLight(directionLight);
 	// directionLight = new DirectionalLight(lightRadiance, lightPos2, lightDir, lightUp, renderer.gl);
 	// renderer.addLight(directionLight);
 
 
-	Lights.addLight((0,0,0),(0,0,-1));
+	Lights.addLight([0,0,0],[0,0,-1]);
 	// Add Sphere
 	let img = new Image(); // brdfLUT
 	img.src = 'assets/ball/GGX_E_LUT.png';
