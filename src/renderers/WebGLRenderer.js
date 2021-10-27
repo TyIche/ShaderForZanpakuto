@@ -41,19 +41,19 @@ class WebGLRenderer {
         //         this.meshes[i].draw(this.camera);
         //     }
         // }
-        for(let i in Lights.lightPoss)
-        {
+        // for(let i in Lights.lightPoss)
+        // {
             
-            if(i%3) continue;
-            // console.log(typeof(i));
-            i = parseInt(i);
-            let meshh = Mesh.cube(setTransform(0, 0, 0, 2, 2, 2, 0));
-            meshh.transform.translate = [Lights.lightPoss[i],Lights.lightPoss[i+1],Lights.lightPoss[i+2]];
-            // console.log(i,Lights.lightPoss[i],Lights.lightPoss[i+1],Lights.lightPoss[i+2]);
-            // meshh.transform.translate = [100,100,10];
-            let MeshR = new MeshRender(this.gl,meshh,new EmissiveMaterial([Lights.lightRadiances[i],Lights.lightRadiances[i+1],Lights.lightRadiances[i+2]]));
-            MeshR.draw(this.camera);
-        }
+        //     if(i%3) continue;
+        //     // console.log(typeof(i));
+        //     i = parseInt(i);
+        //     let meshh = Mesh.cube(setTransform(0, 0, 0, 2, 2, 2, 0));
+        //     meshh.transform.translate = [Lights.lightPoss[i],Lights.lightPoss[i+1],Lights.lightPoss[i+2]];
+        //     // console.log(i,Lights.lightPoss[i],Lights.lightPoss[i+1],Lights.lightPoss[i+2]);
+        //     // meshh.transform.translate = [100,100,10];
+        //     let MeshR = new MeshRender(this.gl,meshh,new EmissiveMaterial([Lights.lightRadiances[i],Lights.lightRadiances[i+1],Lights.lightRadiances[i+2]]));
+        //     MeshR.draw(this.camera);
+        // }
         
         for (let i = 0; i < this.meshes.length; i++) {
             this.gl.useProgram(this.meshes[i].shader.program.glShaderProgram);

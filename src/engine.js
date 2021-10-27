@@ -28,7 +28,7 @@ async function GAMES202Main() {
 	}
 
 	// Add camera
-	const camera = new THREE.PerspectiveCamera(75, gl.canvas.clientWidth / gl.canvas.clientHeight, 1e-2, 1000);
+	const camera = new THREE.PerspectiveCamera(75, gl.canvas.clientWidth / gl.canvas.clientHeight, 1e-2, 100000000);
 	camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
 
 	// Add resize listener
@@ -57,7 +57,7 @@ async function GAMES202Main() {
 	let lightPos = [50, 0, 50];
 	let lightPos2 = [-100, 0, 100];
 	let lightRadiance = [5, 5, 5];
-	let lightRadianceNerfed = [0.3,0.3,0.3];
+	let lightRadianceNerfed = [0.1,0.1,0.1];
 	lightDir = {
 		'x': 0,
 		'y': 0,
@@ -66,10 +66,15 @@ async function GAMES202Main() {
 	let lightUp = [1, 0, 0];
 
 	Lights.addLight(lightPos,lightRadiance);
-	for(let i = 10;i <= 400;i+=17) 
-	Lights.addLight([100,i,10],lightRadianceNerfed);
-	// const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
-	// renderer.addLight(directionLight);
+
+
+	for(let i = -200;i <= 200;i+=20) 
+	Lights.addLight([300,i,10],lightRadianceNerfed);
+
+	for(let i = -200;i <= 200;i+=20) 
+	Lights.addLight([-300,i,10],lightRadianceNerfed);
+	const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
+	renderer.addLight(directionLight);
 	// directionLight = new DirectionalLight(lightRadiance, lightPos2, lightDir, lightUp, renderer.gl);
 	// renderer.addLight(directionLight);
 
@@ -116,11 +121,19 @@ async function GAMES202Main() {
 	// let Sphere4Transform = setTransform(-140, 60, 0, 180, 180, 180, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'KullaContyMaterial', Sphere4Transform, metallic, 0.95);
 
+
+
 	let Sphere5Transform = setTransform(5, -60, 0, 10/7.188224, 250, 1, 0, Math.PI, 0);
 	let Sphere52Transform = setTransform(-5, -60, 0, 10/7.188224, 250, 0.5, 0, Math.PI, 0);
+	let Sphere53Transform = setTransform(0, 0, -100, 20, 20,20, 45, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.2);
-	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.3, 0.61);
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearMaterial', Sphere53Transform, metallic);
+
+
+
+
 	// let Sphere6Transform = setTransform(100, -60, 0, 180, 180, 180, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere6Transform, metallic, 0.35);
 	// let Sphere7Transform = setTransform(20, -60, 0, 180, 180, 180, 0, Math.PI, 0);
@@ -142,7 +155,7 @@ async function GAMES202Main() {
 		cubeMaps.push(new CubeTexture(gl, urls))
 		await cubeMaps[i].init();
 	}
-	let skyBoxTransform = setTransform(0, 50, 50, 150, 150, 150);
+	let skyBoxTransform = setTransform(0, 50, 50, 1500, 1500, 1500);
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'SkyBoxMaterial', skyBoxTransform);
 
 	function createGUI() {

@@ -12,7 +12,7 @@ uniform float uMetallic;
 uniform float uRoughness;
 uniform float uRoughness2;
 uniform sampler2D uBRDFLut;
-uniform samplerCube uCubeTexture;
+// uniform samplerCube uCubeTexture;
 
 varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPos;
@@ -87,6 +87,11 @@ vec3 fresnelSchlick(vec3 R0,vec3 V,vec3 H)
 void main(void) {
     vec3 albedo = pow(texture2D(uAlbedoMap, vTextureCoord).rgb, vec3(2.2));
 
+
+    //
+    // gl_FragColor = vec4(normalize(vFragPos),1);
+    // return ;
+    //
     vec3 N = normalize(vNormal);
     vec3 V = normalize(uCameraPos - vFragPos);
     float NdotV = max(dot(N, V), 0.0);
