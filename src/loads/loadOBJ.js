@@ -1,4 +1,4 @@
-function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, roughness=0.2,roughness2 ) {
+function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, roughness=0.2,roughness2=0.2) {
 
 	const manager = new THREE.LoadingManager();
 	manager.onProgress = function (item, loaded, total) {
@@ -47,13 +47,18 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 								colorMap.CreateConstantTexture(renderer.gl, mat.color.toArray());
 							}
 							let material;
-
+							console.log(objMaterial);
 							switch (objMaterial) {
 								case 'SkyBoxMaterial':
 									material = buildSkyBoxMaterial("./src/shaders/skyBoxShader/SkyBoxVertex.glsl", "./src/shaders/skyBoxShader/SkyBoxFragment.glsl");
 									break;
 								case 'EnvMapMaterial':
 									material = buildEnvMapMaterial("./src/shaders/envMapShader/EnvMapVertex.glsl", "./src/shaders/envMapShader/EnvMapFragment.glsl");
+									break;
+								case 'KnitwearMaterial':
+									console.log("=======================");
+									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[0.5,0.5,0.5],[0.7,0.7,0.7],Lights,
+										"./src/shaders/knitwearBPShader/knitwearBP.vs.glsl","./src/shaders/knitwearBPShader/knitwearBP.fs.glsl");
 									break;
 								case 'KullaContyMaterial':
 									material = buildKullaContyMaterial(colorMap, metallic, roughness, brdflut, eavglut, renderer.lights[0].entity

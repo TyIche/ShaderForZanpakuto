@@ -10,7 +10,7 @@ class anistropicMaterial extends Material {
             'uBRDFLut': { type: 'texture', value: BRDFLut },
             'uEavgFLut': { type: 'texture', value: EavgLut },
             // 'uLightLen' : {type: '1i',value: lights.size},
-            'uCubeTexture': { type: 'CubeTexture', value: null },
+            // 'uCubeTexture': { type: 'CubeTexture', value: null },
             'uLightRadiance': { type: '3fv', value: lights.lightRadiances },
             'uLightDir': { type: '3fv', value: [0,0,0] },
             'uLightPos': { type: '3fv', value: lights.lightPoss },

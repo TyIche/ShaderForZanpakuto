@@ -80,6 +80,10 @@ vec3 fresnelSchlick(vec3 F0, vec3 V, vec3 H)
     return R0 + (1.0-R0)*pow(1.0-VdotH,5.0);
 }
 void main(void) {
+    //
+    // gl_FragColor = vec4(vFragPos,1);
+    // return;
+    //
   vec3 albedo = pow(texture2D(uAlbedoMap, vTextureCoord).rgb, vec3(2.2));
 
   vec3 N = normalize(vNormal);
