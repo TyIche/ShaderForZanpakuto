@@ -69,10 +69,10 @@ async function GAMES202Main() {
 
 
 	for(let i = -200;i <= 200;i+=20) 
-	Lights.addLight([3000,i,10],lightRadianceNerfed);
+	Lights.addLight([300,i,10],lightRadianceNerfed);
 
 	for(let i = -200;i <= 200;i+=20) 
-	Lights.addLight([-3000,i,10],lightRadianceNerfed);
+	Lights.addLight([-300,i,10],lightRadianceNerfed);
 	// const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
 	// renderer.addLight(directionLight);
 	// directionLight = new DirectionalLight(lightRadiance, lightPos2, lightDir, lightUp, renderer.gl);
@@ -123,11 +123,11 @@ async function GAMES202Main() {
 
 	let Sphere5Transform = setTransform(5, -60, 0, 10/7.188224, 250, 1, 0, Math.PI, 0);
 	let Sphere52Transform = setTransform(-5, -60, 0, 10/7.188224, 250, 0.5, 0, Math.PI, 0);
-	let Sphere53Transform = setTransform(-11, -60, 0, 3/7.188224, 250, 0.5, 0, Math.PI, 0);
+	let Sphere53Transform = setTransform(0, 0, -100, 20, 20,20, 45, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.2);
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
-	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere53Transform, metallic, 0.6, 0.4);
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere53Transform, metallic, 0.9,0.9);
 	// let Sphere6Transform = setTransform(100, -60, 0, 180, 180, 180, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere6Transform, metallic, 0.35);
 	// let Sphere7Transform = setTransform(20, -60, 0, 180, 180, 180, 0, Math.PI, 0);
