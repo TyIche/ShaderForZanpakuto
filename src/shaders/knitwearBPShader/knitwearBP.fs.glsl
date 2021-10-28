@@ -47,19 +47,29 @@ float getIntersection(vec3 vp,vec3 vdir,vec3 mesh[4])
 
     return Dis / abs(dot(N,vdir));
 }
-float T_in,T_out;
+float T_in = 0.0,T_out = 10000000.0;
 bool getView()
 {
-    vec3 vp = uCameraPos,vdir = uCameraPos - vFragPos;
+    vec3 vp = uCameraPos,vdir = vFragPos - uCameraPos;
     vdir = normalize(vdir);
 
+    // gl_FragColor = vec4(vdir,1);
     // float T_in,T_out;
+
     float a = getIntersection(vp,vdir,ul),b = getIntersection(vp,vdir,ur);
+    // if(min(a,b) > 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
     float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
+    // if(min(c,d) < 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
     float e = getIntersection(vp,vdir,un),f = getIntersection(vp,vdir,uf);
+    
 
     T_in = max(max(min(a,b),min(c,d)),min(e,f));
     T_out = min(min(max(a,b),max(c,d)),max(e,f));
+    // gl_FragColor = vec4(normalize(vec3(T_in,T_out,0)),1);
+    
+    if(T_in <= T_out && T_in > 0.0) gl_FragColor = vec4(vec3(1.0,0.0,0.0),1);
+    else if(T_in - T_out <= 10000.0) gl_FragColor = vec4(vec3(0,1,0) ,1);
+    // else gl_FragColor = vec4(vec3(0,(T_in-T_out)/100.0,0) ,1);
 
     if( T_in <= T_out && T_in > 0.0)
     {
@@ -95,20 +105,24 @@ bool check(float x,float y,float x0,float y0,float r)
 }
 void main()
 {
-    // gl_FragColor = vec4(vec3(cos(6.28)),1.0);
+    // gl_FragColor = vec4(vec3(cos(0.0)),1);
     // return ;
 
     if(!getView()) return;
+
 
     for(float t = 0.0;t < 20.0;t += 1.0)
     {
         vec3 now = viewIn + viewStep * t;
         float xx = dis(ul,now)/uxlen,yy = dis(ub,now)/uylen;
-        // if(!check(xx,yy,0.5,0.75,0.25)&&
-        // !check(xx,yy,0.5 + 0.25 * cos(PI/3.0), 0.5 + 0.25 * sin(PI/3.0),0.25) 
-        // &&!check(xx,yy,0.5 + 0.25 * cos(-PI/3.0), 0.5 + 0.25 * sin(-PI/3.0),0.25))
-        // continue;
+        if(!check(xx,yy,0.75,0.5,0.25)&&
+        !check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0), 0.5 + 0.25 * sin(PI*2.0/3.0),0.25) 
+        &&!check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0), 0.5 + 0.25 * sin(-PI*2.0/3.0),0.25))
+        continue;
         nowFragPos = now;
+        // gl_FragColor = vec4(normalize(viewIn),1);
+        gl_FragColor = vec4(vec3(1.0),1);
+        return;
         vec3 ans = vec3(0.0);
         for(int i = 0;i < 100;i++)
         {
