@@ -122,10 +122,11 @@ async function GAMES202Main() {
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'KullaContyMaterial', Sphere4Transform, metallic, 0.95);
 
 
-	let minx = -50,maxx = 50,miny = -5,maxy = 5,minz = -5,maxz = 5;
+	let minx = -50,maxx = 50,miny = -1,maxy = 1,minz = -1,maxz = 1;
 	let Sphere5Transform = setTransform(5, -60, 0, 10/7.188224, 250, 1, 0, Math.PI, 0);
 	let Sphere52Transform = setTransform(-5, -60, 0, 10/7.188224, 250, 0.5, 0, Math.PI, 0);
-	let Sphere53Transform = setTransform(0, 0, 0, 100/7.188224, 10/7.188224,10/7.188224, 0, Math.PI, 0);
+	let Sphere53Transform = setTransform(0, 0, 0, 100/7.188224, maxy*2/7.188224,maxz*2/7.188224, 0, Math.PI, 0);
+	let Sphere54Transform = setTransform(0, 2, 0, 100/7.188224, maxy*2/7.188224,maxz*2/7.188224, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.2);
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
@@ -139,8 +140,20 @@ async function GAMES202Main() {
 	[minx,miny,minz,maxx,miny,minz,maxx,miny,maxz,minx,miny,maxz],
 
 	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
-	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz]);
+	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz],1);
 
+	maxy += 2;miny += 2;
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearMaterial', Sphere54Transform, metallic,
+	1,1,
+	// [minx,maxy,maxz,maxx,maxy,maxz,maxx,miny,maxz,minx,miny,maxz]
+	[minx,maxy,maxz,minx,miny,maxz,maxx,miny,maxz,maxx,maxy,maxz]
+	,[minx,maxy,minz,maxx,maxy,minz,maxx,miny,minz,minx,miny,minz],
+
+	[minx,maxy,minz, minx,maxy,maxz, maxx,maxy,maxz, maxx,maxy,minz],
+	[minx,miny,minz,maxx,miny,minz,maxx,miny,maxz,minx,miny,maxz],
+
+	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
+	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz],-1);
 
 
 
