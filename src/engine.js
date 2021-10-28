@@ -54,7 +54,7 @@ async function GAMES202Main() {
 
 	// Add lights
 	// light - is open shadow map == true
-	let lightPos = [50, 0, 50];
+	let lightPos = [0, 50, 50];
 	let lightPos2 = [-100, 0, 100];
 	let lightRadiance = [5, 5, 5];
 	let lightRadianceNerfed = [0.1,0.1,0.1];
@@ -122,14 +122,20 @@ async function GAMES202Main() {
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'KullaContyMaterial', Sphere4Transform, metallic, 0.95);
 
 
-
+	let minx = -50,maxx = 50,miny = -5,maxy = 5,minz = -5,maxz = -5;
 	let Sphere5Transform = setTransform(5, -60, 0, 10/7.188224, 250, 1, 0, Math.PI, 0);
 	let Sphere52Transform = setTransform(-5, -60, 0, 10/7.188224, 250, 0.5, 0, Math.PI, 0);
-	let Sphere53Transform = setTransform(0, 0, -100, 20, 20,20, 45, Math.PI, 0);
+	let Sphere53Transform = setTransform(0, 0, 0, 100/7.188224, 10/7.188224,10/7.188224, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
-	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.2);
-	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
-	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearMaterial', Sphere53Transform, metallic);
+	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.2);
+	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearMaterial', Sphere53Transform, metallic,
+	1,1,[minx,maxy,maxz,maxx,maxy,maxz,maxx,miny,maxz,minx,miny,maxz]
+	,[minx,maxy,minz,maxx,maxy,minz,maxx,miny,minz,minx,miny,minz],
+	[minx,maxy,minz,minx,maxy,maxz,maxx,maxy,maxz,maxx,maxy,minz],
+	[minx,miny,minz,minx,miny,maxz,maxx,miny,maxz,maxx,miny,minz],
+	[maxx,miny,minz,maxx,miny,maxz,maxx,maxy,maxz,maxx,maxy,minz],
+	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz]);
 
 
 

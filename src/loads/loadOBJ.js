@@ -1,4 +1,4 @@
-function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, roughness=0.2,roughness2=0.2) {
+function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, roughness=0.2,roughness2=0.2,ul = [],ur = [],ut = [],ub = [],un = [],uf = []) {
 
 	const manager = new THREE.LoadingManager();
 	manager.onProgress = function (item, loaded, total) {
@@ -57,7 +57,8 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 									break;
 								case 'KnitwearMaterial':
 									console.log("=======================");
-									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[0.5,0.5,0.5],[0.7,0.7,0.7],Lights,
+									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[0.9,0.9,0.9],[0.7,0.7,0.7],Lights,
+										ul,ur,ut,ub,un,uf,ur[0] - ul[0],ut[2] - ub[2],1,
 										"./src/shaders/knitwearBPShader/knitwearBP.vs.glsl","./src/shaders/knitwearBPShader/knitwearBP.fs.glsl");
 									break;
 								case 'KullaContyMaterial':
