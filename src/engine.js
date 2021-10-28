@@ -54,7 +54,7 @@ async function GAMES202Main() {
 
 	// Add lights
 	// light - is open shadow map == true
-	let lightPos = [0, 50, 50];
+	let lightPos = [0, 50, 30];
 	let lightPos2 = [-100, 0, 100];
 	let lightRadiance = [5, 5, 5];
 	let lightRadianceNerfed = [0.1,0.1,0.1];
@@ -68,11 +68,11 @@ async function GAMES202Main() {
 	Lights.addLight(lightPos,lightRadiance);
 
 
-	for(let i = -200;i <= 200;i+=20) 
-	Lights.addLight([300,i,10],lightRadianceNerfed);
+	// for(let i = -200;i <= 200;i+=20) 
+	// Lights.addLight([300,i,10],lightRadianceNerfed);
 
-	for(let i = -200;i <= 200;i+=20) 
-	Lights.addLight([-300,i,10],lightRadianceNerfed);
+	// for(let i = -200;i <= 200;i+=20) 
+	// Lights.addLight([-300,i,10],lightRadianceNerfed);
 	const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
 	renderer.addLight(directionLight);
 	// directionLight = new DirectionalLight(lightRadiance, lightPos2, lightDir, lightUp, renderer.gl);
