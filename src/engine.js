@@ -130,13 +130,15 @@ async function GAMES202Main() {
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.2);
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearMaterial', Sphere53Transform, metallic,
-	1,1,[minx,maxy,maxz,maxx,maxy,maxz,maxx,miny,maxz,minx,miny,maxz]
+	1,1,
+	// [minx,maxy,maxz,maxx,maxy,maxz,maxx,miny,maxz,minx,miny,maxz]
+	[minx,maxy,maxz,minx,miny,maxz,maxx,miny,maxz,maxx,maxy,maxz]
 	,[minx,maxy,minz,maxx,maxy,minz,maxx,miny,minz,minx,miny,minz],
-	
-	[minx,maxy,minz, minx,maxy,maxz, maxx,maxy,maxz, maxx,maxy,minz],
-	[minx,miny,minz,minx,miny,maxz,maxx,miny,maxz,maxx,miny,minz],
 
-	[maxx,miny,minz,maxx,miny,maxz,maxx,maxy,maxz,maxx,maxy,minz],
+	[minx,maxy,minz, minx,maxy,maxz, maxx,maxy,maxz, maxx,maxy,minz],
+	[minx,miny,minz,maxx,miny,minz,maxx,miny,maxz,minx,miny,maxz],
+
+	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
 	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz]);
 
 

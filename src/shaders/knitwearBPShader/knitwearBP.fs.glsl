@@ -28,6 +28,7 @@ varying highp vec3 vNormal;
 varying highp vec3 vTangent;
 
 highp vec3 nowFragPos;
+highp vec3 tmp,nowNormal;
 
 float PI = acos(-1.0);
 vec3 viewIn,viewStep;
@@ -36,7 +37,7 @@ float dis(vec3 mesh[4],vec3 p)
     vec3 N = cross(mesh[0] - mesh[1],mesh[2] - mesh[1]);
     N = normalize(N);
 
-    return abs(dot(N,p - mesh[0]));
+    return dot(N,mesh[0] - p);
 }
 float getIntersection(vec3 vp,vec3 vdir,vec3 mesh[4])
 {
@@ -45,7 +46,7 @@ float getIntersection(vec3 vp,vec3 vdir,vec3 mesh[4])
     N = normalize(N);
     float Dis = dis(mesh,vp);
 
-    return Dis / abs(dot(N,vdir));
+    return Dis / dot(N,vdir);
 }
 float T_in = 0.0,T_out = 10000000.0;
 bool getView()
@@ -57,7 +58,8 @@ bool getView()
     // float T_in,T_out;
 
     float a = getIntersection(vp,vdir,ul),b = getIntersection(vp,vdir,ur);
-    // if(min(a,b) > 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
+    // if(b > 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
+    // if(true) gl_FragColor = vec4(vec3(1,0,0),1);
     float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
     // if(min(c,d) < 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
     float e = getIntersection(vp,vdir,un),f = getIntersection(vp,vdir,uf);
@@ -67,8 +69,8 @@ bool getView()
     T_out = min(min(max(a,b),max(c,d)),max(e,f));
     // gl_FragColor = vec4(normalize(vec3(T_in,T_out,0)),1);
     
-    if(T_in <= T_out && T_in > 0.0) gl_FragColor = vec4(vec3(1.0,0.0,0.0),1);
-    else if(T_in - T_out <= 10000.0) gl_FragColor = vec4(vec3(0,1,0) ,1);
+    // if(T_in <= T_out && T_in > 0.0) gl_FragColor = vec4(vec3(1.0,0.0,0.0),1);
+    // else if(T_in - T_out <= 1.0) gl_FragColor = vec4(vec3(0,1,0) ,1);
     // else gl_FragColor = vec4(vec3(0,(T_in-T_out)/100.0,0) ,1);
 
     if( T_in <= T_out && T_in > 0.0)
@@ -101,28 +103,51 @@ vec3 BlinnPhong(vec3 I,vec3 lp)
 }
 bool check(float x,float y,float x0,float y0,float r)
 {
-    return (x - x0) * (x - x0) + (y - y0) * (y - y0) <= r * r;
+    if( (x - x0) * (x - x0) + (y - y0) * (y - y0) <= r * r)
+    {
+        // tmp = vec3( x - x0,y - y0 ,0);
+        // tmp = normalize(tmp);
+        return true;
+    }
+    return false;
 }
 void main()
 {
-    // gl_FragColor = vec4(vec3(cos(0.0)),1);
+    // gl_FragColor = vec4(normalize(vFragPos),1);
+    // return ;
+
+
+    // gl_FragColor = vec4(vec3(dot(normalize(cross(uf[0] - uf[1],uf[2] - uf[1])),vec3(1,0,0))),1);
     // return ;
 
     if(!getView()) return;
+    // gl_FragColor = vec4(vec3(1, 1,1 )/1.55,1);
+    // return ;
 
-
-    for(float t = 0.0;t < 20.0;t += 1.0)
+    for(float t = 11.0;t >= 0.0;t -= 1.0)
     {
         vec3 now = viewIn + viewStep * t;
-        float xx = dis(ul,now)/uxlen,yy = dis(ub,now)/uylen;
+        float xx = abs(dis(ul,now))/uxlen,yy = abs(dis(ub,now))/uylen;
+        // if(xx <= 1.2 && xx >= 0.0 && yy <= 1.2 && yy >= 0.0)
+        // {
+        //     gl_FragColor = vec4(1,1, 1,1 );
+        //     return;
+        // }
+        if(t > 10.0)
+        {
+            gl_FragColor = vec4(xx,yy ,0 ,1 );
+            return;
+        }
         if(!check(xx,yy,0.75,0.5,0.25)&&
         !check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0), 0.5 + 0.25 * sin(PI*2.0/3.0),0.25) 
         &&!check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0), 0.5 + 0.25 * sin(-PI*2.0/3.0),0.25))
         continue;
         nowFragPos = now;
+        // if(t > 0.5) nowNormal = tmp;
+        // gl_FragColor = vec4(1,1,1,1);
         // gl_FragColor = vec4(normalize(viewIn),1);
-        gl_FragColor = vec4(vec3(1.0),1);
-        return;
+        // gl_FragColor = vec4(vec3(1.0),1);
+        // return;
         vec3 ans = vec3(0.0);
         for(int i = 0;i < 100;i++)
         {
@@ -134,7 +159,7 @@ void main()
             // color = pow(color, vec3(1.0/2.2)); 
             ans += color;
         }
-        gl_FragColor = vec4(ans, 1);
+        if(t<0.5) gl_FragColor = vec4(ans, 1);
         return ;
     // normalize(ans);
     // ans*=255.0;
