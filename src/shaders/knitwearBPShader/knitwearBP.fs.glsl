@@ -30,6 +30,7 @@ varying highp vec3 vTangent;
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
 
+const int STEP = 100;
 float PI = acos(-1.0);
 vec3 viewIn,viewStep;
 float dis(vec3 mesh[4],vec3 p)
@@ -76,7 +77,7 @@ bool getView()
     if( T_in <= T_out && T_in > 0.0)
     {
         viewIn = vp + T_in * vdir;
-        viewStep = (T_out - T_in) * vdir / 20.0;
+        viewStep = (T_out - T_in) * vdir / float(STEP);
         return true;
     }
     return false;
@@ -124,7 +125,7 @@ void main()
     // gl_FragColor = vec4(vec3(1, 1,1 )/1.55,1);
     // return ;
     gl_FragColor = vec4(0,0 ,1 ,1 );
-    for(int t = 0;t <= 20;t++)
+    for(int t = 0;t <= STEP;t++)
     {
         highp float tt = float(t);
         vec3 now = viewIn + viewStep * tt;

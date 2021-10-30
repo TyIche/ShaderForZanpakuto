@@ -55,7 +55,8 @@ async function GAMES202Main() {
 	// Add lights
 	// light - is open shadow map == true
 	let lightPos = [0, 50, 30];
-	let lightPos2 = [-100, 0, 100];
+	// let lightPos = [100, 0, 100];
+	let lightPosInv = [0, -50, 30];
 	let lightRadiance = [5, 5, 5];
 	let lightRadianceNerfed = [0.1,0.1,0.1];
 	lightDir = {
@@ -66,13 +67,13 @@ async function GAMES202Main() {
 	let lightUp = [1, 0, 0];
 
 	Lights.addLight(lightPos,lightRadiance);
+	// Lights.addLight(lightPosInv,lightRadiance);
 
+	for(let i = -200;i <= 200;i+=20) 
+	Lights.addLight([3000,i,10],lightRadianceNerfed);
 
-	// for(let i = -200;i <= 200;i+=20) 
-	// Lights.addLight([300,i,10],lightRadianceNerfed);
-
-	// for(let i = -200;i <= 200;i+=20) 
-	// Lights.addLight([-300,i,10],lightRadianceNerfed);
+	for(let i = -200;i <= 200;i+=20) 
+	Lights.addLight([-3000,i,10],lightRadianceNerfed);
 	const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
 	renderer.addLight(directionLight);
 	// directionLight = new DirectionalLight(lightRadiance, lightPos2, lightDir, lightUp, renderer.gl);
@@ -122,27 +123,16 @@ async function GAMES202Main() {
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'KullaContyMaterial', Sphere4Transform, metallic, 0.95);
 
 
-	let minx = -50,maxx = 50,miny = -5,maxy = 5,minz = -5,maxz = 5;
+	
 	let Sphere5Transform = setTransform(5, -60, 0, 10/7.188224, 250, 1, 0, Math.PI, 0);
 	let Sphere52Transform = setTransform(-5, -60, 0, 10/7.188224, 250, 0.5, 0, Math.PI, 0);
-	let Sphere53Transform = setTransform(0, 0, 0, 100/7.188224, 10/7.188224,10/7.188224, 0, Math.PI, 0);
+	
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
-	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.2);
+	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.1);
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
-	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearMaterial', Sphere53Transform, metallic,
-	1,1,
-	// [minx,maxy,maxz,maxx,maxy,maxz,maxx,miny,maxz,minx,miny,maxz]
-	[minx,maxy,maxz,minx,miny,maxz,maxx,miny,maxz,maxx,maxy,maxz]
-	,[minx,maxy,minz,maxx,maxy,minz,maxx,miny,minz,minx,miny,minz],
+	
 
-	[minx,maxy,minz, minx,maxy,maxz, maxx,maxy,maxz, maxx,maxy,minz],
-	[minx,miny,minz,maxx,miny,minz,maxx,miny,maxz,minx,miny,maxz],
-
-	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
-	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz]);
-
-
-
+	genTwist(renderer);
 
 	// let Sphere6Transform = setTransform(100, -60, 0, 180, 180, 180, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere6Transform, metallic, 0.35);
