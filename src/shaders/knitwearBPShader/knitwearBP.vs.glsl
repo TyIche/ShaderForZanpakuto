@@ -33,6 +33,14 @@ void main(void) {
 
   gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 
+  for(int i = 0;i < 4;i++) 
+  vl[i] = (uModelMatrix * vec4(ul[i],1.0)).xyz,
+  vr[i] = (uModelMatrix * vec4(ur[i],1.0)).xyz,
+  vt[i] = (uModelMatrix * vec4(ut[i],1.0)).xyz,
+  vb[i] = (uModelMatrix * vec4(ub[i],1.0)).xyz,
+  vn[i] = (uModelMatrix * vec4(un[i],1.0)).xyz,
+  vf[i] = (uModelMatrix * vec4(uf[i],1.0)).xyz;
+
   vTextureCoord = aTextureCoord;
   vTangent = normalize((uModelMatrix * vec4(0,1,0,1)).xyz);
 }

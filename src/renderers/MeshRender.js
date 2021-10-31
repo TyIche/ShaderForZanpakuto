@@ -119,10 +119,13 @@ class MeshRender {
 		// Model transform
 		mat4.identity(modelMatrix);
 		mat4.translate(modelMatrix, modelMatrix, this.mesh.transform.translate);
-		mat4.scale(modelMatrix, modelMatrix, this.mesh.transform.scale);
+		
 		mat4.rotateX(modelMatrix, modelMatrix, this.mesh.transform.rotate[0]);
 		mat4.rotateY(modelMatrix, modelMatrix, this.mesh.transform.rotate[1]);
 		mat4.rotateZ(modelMatrix, modelMatrix, this.mesh.transform.rotate[2]);
+		mat4.scale(modelMatrix, modelMatrix, this.mesh.transform.scale);
+		// if(this.mesh.transform.rotate[2]!=0) 
+		// console.log(modelMatrix);
 		// View transform
 		camera.updateMatrixWorld();
 		mat4.invert(viewMatrix, camera.matrixWorld.elements);

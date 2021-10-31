@@ -10,7 +10,6 @@ var guiParams = {
 
 var cubeMaps = [];
 
-//生成的纹理的分辨率，纹理必须是标准的尺寸 256*256 1024*1024  2048*2048
 var resolution = 2048;
 let brdflut, eavglut;
 let envMapPass = null;
@@ -130,7 +129,8 @@ async function GAMES202Main() {
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.1);
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
-	
+	// let quq = setTransform(0, 0, 0, 10, 10, 1, 0, Math.PI/2, 0);
+	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', quq, metallic, 0.2, 0.61);
 
 	genTwist(renderer);
 

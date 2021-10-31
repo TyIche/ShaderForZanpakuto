@@ -10,6 +10,13 @@ uniform float uxlen;
 uniform float uylen;
 uniform float utwistRate;
 
+// uniform vec3 ul[4];
+// uniform vec3 ur[4];
+// uniform vec3 ut[4];
+// uniform vec3 ub[4];
+// uniform vec3 un[4];
+// uniform vec3 uf[4];
+
 uniform vec3 uka;
 uniform vec3 uks;
 uniform vec3 ukd;
@@ -33,7 +40,7 @@ varying highp vec3 vf[4];
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
 
-const int STEP = 100;
+const int STEP = 20;
 float PI = acos(-1.0);
 vec3 viewIn,viewStep;
 float dis(vec3 mesh[4],vec3 p)
@@ -61,13 +68,13 @@ bool getView()
     // gl_FragColor = vec4(vdir,1);
     // float T_in,T_out;
 
-    float a = getIntersection(vp,vdir,vl),b = getIntersection(vp,vdir,ur);
-    // if(b > 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
-    // if(true) gl_FragColor = vec4(vec3(1,0,0),1);
-    float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
-    // if(min(c,d) < 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
-    float e = getIntersection(vp,vdir,un),f = getIntersection(vp,vdir,uf);
+    // float a = getIntersection(vp,vdir,ul),b = getIntersection(vp,vdir,ur);
+    // float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
+    // float e = getIntersection(vp,vdir,un),f = getIntersection(vp,vdir,uf);
     
+    float a = getIntersection(vp,vdir,vl),b = getIntersection(vp,vdir,vr);
+    float c = getIntersection(vp,vdir,vt),d = getIntersection(vp,vdir,vb);
+    float e = getIntersection(vp,vdir,vn),f = getIntersection(vp,vdir,vf);
 
     T_in = max(max(min(a,b),min(c,d)),min(e,f));
     T_out = min(min(max(a,b),max(c,d)),max(e,f));
@@ -132,24 +139,13 @@ void main()
     {
         highp float tt = float(t);
         vec3 now = viewIn + viewStep * tt;
+
+        // float xx = abs(dis(ul,now))/uxlen,yy = abs(dis(ub,now))/uylen;
+        // float zz = abs(dis(uf,now));
+
         float xx = abs(dis(vl,now))/uxlen,yy = abs(dis(vb,now))/uylen;
-        
- 
-
-        // if(xx <= 1.2 && xx >= 0.0 && yy <= 1.2 && yy >= 0.0)
-        // {
-        //     gl_FragColor = vec4(1,1, 1,1 );
-        //     return;
-        // }
-        // gl_FragColor = vec4(vec3(t/40.0),1);
-        // if(t > 10)
-        // {
-        //     gl_FragColor = vec4(xx,yy ,0 ,1 );
-        //     return;
-        // }
-
-        // float theta = PI/2.0;
         float zz = abs(dis(vf,now));
+
         float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate;
         // float theta = zz * utwistRate;
         if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
