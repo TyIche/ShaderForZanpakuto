@@ -2,7 +2,10 @@ function genTwist(renderer)
 {
     metallic = 1;
     let minx = -50,maxx = 50,miny = -5,maxy = 5,minz = -5,maxz = 5;
+
     let Sphere53Transform = setTransform(0, 0, 0, 100/7.188224, 10/7.188224,10/7.188224, 0, Math.PI, 0);
+
+
     loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearMaterial', Sphere53Transform, metallic,
 	1,1,
 	// [minx,maxy,maxz,maxx,maxy,maxz,maxx,miny,maxz,minx,miny,maxz]

@@ -4,12 +4,8 @@ precision mediump float;
 
 uniform vec3 uLightPos[100];
 uniform vec3 uLightRadiance[100];
-uniform vec3 ul[4];
-uniform vec3 ur[4];
-uniform vec3 ut[4];
-uniform vec3 ub[4];
-uniform vec3 un[4];
-uniform vec3 uf[4];
+
+
 uniform float uxlen;
 uniform float uylen;
 uniform float utwistRate;
@@ -26,6 +22,13 @@ varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPos;
 varying highp vec3 vNormal;
 varying highp vec3 vTangent;
+
+varying highp vec3 vl[4];
+varying highp vec3 vr[4];
+varying highp vec3 vt[4];
+varying highp vec3 vb[4];
+varying highp vec3 vn[4];
+varying highp vec3 vf[4];
 
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
@@ -58,7 +61,7 @@ bool getView()
     // gl_FragColor = vec4(vdir,1);
     // float T_in,T_out;
 
-    float a = getIntersection(vp,vdir,ul),b = getIntersection(vp,vdir,ur);
+    float a = getIntersection(vp,vdir,vl),b = getIntersection(vp,vdir,ur);
     // if(b > 0.0) gl_FragColor = vec4(vec3(1,0,0),1);
     // if(true) gl_FragColor = vec4(vec3(1,0,0),1);
     float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
@@ -129,7 +132,7 @@ void main()
     {
         highp float tt = float(t);
         vec3 now = viewIn + viewStep * tt;
-        float xx = abs(dis(ul,now))/uxlen,yy = abs(dis(ub,now))/uylen;
+        float xx = abs(dis(vl,now))/uxlen,yy = abs(dis(vb,now))/uylen;
         
  
 
@@ -146,10 +149,11 @@ void main()
         // }
 
         // float theta = PI/2.0;
-        float zz = abs(dis(uf,now));
+        float zz = abs(dis(vf,now));
         float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate;
         // float theta = zz * utwistRate;
         if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
+
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25))
         {
