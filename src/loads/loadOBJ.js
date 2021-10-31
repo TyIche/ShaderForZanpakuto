@@ -58,7 +58,7 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 								case 'KnitwearMaterial':
 									console.log("=======================");
 									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[0.9,0.9,0.9],[0.7,0.7,0.7],Lights,
-										ul,ur,ut,ub,un,uf,ul[2] - ur[2],ut[1] - ub[1],5*con,
+										ul,ur,ut,ub,un,uf,ul[2] - ur[2],ut[1] - ub[1],30,
 										"./src/shaders/knitwearBPShader/knitwearBP.vs.glsl","./src/shaders/knitwearBPShader/knitwearBP.fs.glsl");
 									break;
 								case 'KullaContyMaterial':
