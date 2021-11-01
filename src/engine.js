@@ -53,7 +53,7 @@ async function GAMES202Main() {
 
 	// Add lights
 	// light - is open shadow map == true
-	let lightPos = [0, 50, 30];
+	let lightPos = [0, -50, 100];
 	// let lightPos = [100, 0, 100];
 	let lightPosInv = [0, -50, 30];
 	let lightRadiance = [5, 5, 5];
@@ -132,7 +132,15 @@ async function GAMES202Main() {
 	// let quq = setTransform(0, 0, 0, 10, 10, 1, 0, Math.PI/2, 0);
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', quq, metallic, 0.2, 0.61);
 
-	genTwist(renderer);
+	// genTwist(renderer);
+	genTwistByR(renderer,1,4);
+	// genTwist(renderer,[0,0,0],[100,0,0],1);
+	// genTwist(renderer,[100,0,0],[150,50,0],1);
+	// genTwist(renderer,[0,20,0],[100,20,0],1);
+	// genTwist(renderer,[100,20,0],[150,70,0],1);
+	// genTwist(renderer,[],[]);
+	// genTwist(renderer,[],[]);
+
 
 	// let Sphere6Transform = setTransform(100, -60, 0, 180, 180, 180, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere6Transform, metallic, 0.35);

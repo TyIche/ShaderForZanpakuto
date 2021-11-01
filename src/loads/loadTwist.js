@@ -1,9 +1,57 @@
+function genTwistByR(renderer,r = 10,twistRate = 30)
+{
+	// genTwist(renderer,[-100,0,0],[100,0,0]);
+	let H = 20;
+	let d =  2*r;
+	let k3 = Math.sqrt(3);
 
+	let pointSet = [[-8*d,-r,H],[-8*d,-d-r,H],[-8*d,-2*d - r,H],[-8*d,-3 * d - r,H],
+	[8*d,-r,H],[8*d,-d-r,H],[8*d,-2*d - r,H],[8*d,-3 * d - r,H]];
+	let lastSet = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
+	let SP = [-4/k3*d,0,H];
+	let delta = [[0,0,0],[0,0,d],[4*d/k3,-4*d,0],[0,0,-d],[0,0,0]];
+	// let delta = [[0,0,0]];
+	for(let i in delta)
+	{
+		for(let j = 0 ;j< 4;j++)
+		{
+			lastSet[j][0] = pointSet[j][0];
+			lastSet[j][1] = pointSet[j][1];
+			lastSet[j][2] = pointSet[j][2];
+			//console.log("LOG ",i);
+			if(i == 0) pointSet[j][0] = (3/k3*d*(2*j+1))/2-8/k3*d;
+			else if( i == 4) pointSet[j][0] = 8*d;
+			else pointSet[j][0] += delta[i][0],pointSet[j][1] += delta[i][1],pointSet[j][2]+=delta[i][2];
+			// console.log("log ",lastSet[j])
+			// if(lastSet[j][0]) 
+			genTwist(renderer,[lastSet[j][0],lastSet[j][1],lastSet[j][2]]
+				,[pointSet[j][0],pointSet[j][1],pointSet[j][2]],r,twistRate);
+		}
+		for(let j = 0;j < 4;j++)
+		{
+			lastSet[j+4][0] = pointSet[j+4][0];
+			lastSet[j+4][1] = pointSet[j+4][1];
+			lastSet[j+4][2] = pointSet[j+4][2];
+
+			pointSet[j+4][0] = -pointSet[j][0];
+			pointSet[j+4][1] = pointSet[j][1];
+			pointSet[j+4][2] = pointSet[j][2];
+
+			genTwist(renderer,[lastSet[j+4][0],lastSet[j+4][1],lastSet[j+4][2]]
+				,[pointSet[j+4][0],pointSet[j+4][1],pointSet[j+4][2]],r,twistRate);
+		}
+	}
+	console.log(")))))))))))))))))))))))))))))))))))))");
+	console.log(pointSet);
+}
 function genTwist(renderer,Start = [0,0,0],End = [20,20,20],R = 10,twistRate = 30)
 {
     metallic = 1;
+	console.log(Start,End);
+	console.log(typeof(Start[0]))
 	let len = (Start[0] - End[0]) * (Start[0] - End[0]) + (Start[1] - End[1])*(Start[1] - End[1]) + (Start[2] - End[2])*(Start[2] - End[2]);
 	len = Math.sqrt(len);
+	console.log(len);
 
 	
 	let dir = [Start[0] - End[0],Start[1] - End[1],Start[2] - End[2]];
@@ -15,10 +63,8 @@ function genTwist(renderer,Start = [0,0,0],End = [20,20,20],R = 10,twistRate = 3
 	// minx *= xscale;maxx *= xscale;miny *= yscale;maxy *= yscale;minz *= zscale;maxz *= zscale;
 	let theta = dir[2]*dir[2]+dir[0]*dir[0] + 1
 	 - dir[2]*dir[2] - (dir[0]-1)*(dir[0]-1);
-	 console.log(dir[0]*dir[0] + 1,(dir[0]-1)*(dir[0]-1),dir[0])
+	//  console.log(dir[0]*dir[0] + 1,(dir[0]-1)*(dir[0]-1),dir[0])
 	theta /= 2 * Math.sqrt(dir[2]*dir[2]+dir[0]*dir[0]);
-
-	console.log(theta)
 
 	theta = Math.acos(theta);
 	
@@ -26,7 +72,6 @@ function genTwist(renderer,Start = [0,0,0],End = [20,20,20],R = 10,twistRate = 3
 	{
 		theta *= -1;
 	}
-	console.log(theta);
     let Sphere53Transform = setTransform((Start[0]+End[0])/2,(Start[1]+End[1])/2,(Start[2]+End[2])/2,
 	 xscale,yscale ,zscale, 0,-theta,Math.atan2(dir[1],Math.sqrt(dir[2]*dir[2]+dir[0]*dir[0])));
 	// let Sphere53Transform = setTransform((Start[0]+End[0])/2,(Start[1]+End[1])/2,(Start[2]+End[2])/2,
