@@ -40,7 +40,7 @@ varying highp vec3 vf[4];
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
 
-const int STEP = 20;
+const int STEP = 100;
 float PI = acos(-1.0);
 vec3 viewIn,viewStep;
 float dis(vec3 mesh[4],vec3 p)
@@ -130,11 +130,12 @@ void main()
 
     // gl_FragColor = vec4(vec3(dot(normalize(cross(uf[0] - uf[1],uf[2] - uf[1])),vec3(1,0,0))),1);
     // return ;
-
+    
     if(!getView()) return;
     // gl_FragColor = vec4(vec3(1, 1,1 )/1.55,1);
     // return ;
-    gl_FragColor = vec4(0,0 ,1 ,1 );
+    // gl_FragColor = vec4(0,0 ,1 ,1 );
+    bool flag = false;
     for(int t = 0;t <= STEP;t++)
     {
         highp float tt = float(t);
@@ -153,6 +154,7 @@ void main()
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25))
         {
+            flag = true;
             nowFragPos = now;
             nowNormal =  now - vec3(now.x,tmp.x,tmp.y);
             if(t < 1) nowNormal = vNormal;
@@ -179,5 +181,8 @@ void main()
     // normalize(ans);
     // ans*=255.0;
     }
-    
+    if(!flag)
+    {
+        gl_FragColor = vec4(1.0,1.0,1.0,0.0);
+    }
 }

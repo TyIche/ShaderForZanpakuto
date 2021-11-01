@@ -44,7 +44,7 @@ function genTwistByR(renderer,r = 10,twistRate = 30)
 	console.log(")))))))))))))))))))))))))))))))))))))");
 	console.log(pointSet);
 }
-function genTwist(renderer,Start = [0,0,0],End = [20,20,20],R = 10,twistRate = 30)
+function genTwist(renderer,Start = [0,0,0],End = [20,20,20],R = 10,twistRate = 50)
 {
     metallic = 1;
 	console.log(Start,End);

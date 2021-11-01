@@ -25,6 +25,9 @@ class WebGLRenderer {
         gl.enable(gl.DEPTH_TEST); // Enable depth testing
         gl.depthFunc(gl.LEQUAL); // Near things obscure far things
 
+        // gl.enable(gl.BLEND);
+        // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
         // console.assert(this.lights.length != 0, "No light");
         // console.assert(this.lights.length == 1, "Multiple lights");
 

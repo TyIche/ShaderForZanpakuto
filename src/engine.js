@@ -133,7 +133,7 @@ async function GAMES202Main() {
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', quq, metallic, 0.2, 0.61);
 
 	// genTwist(renderer);
-	genTwistByR(renderer,1,4);
+	
 	// genTwist(renderer,[0,0,0],[100,0,0],1);
 	// genTwist(renderer,[100,0,0],[150,50,0],1);
 	// genTwist(renderer,[0,20,0],[100,20,0],1);
@@ -165,6 +165,10 @@ async function GAMES202Main() {
 	}
 	let skyBoxTransform = setTransform(0, 50, 50, 1500, 1500, 1500);
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'SkyBoxMaterial', skyBoxTransform);
+
+
+	genTwistByR(renderer,1,4);
+	// genTwist(renderer);
 
 	function createGUI() {
 		const gui = new dat.gui.GUI();
