@@ -1,4 +1,4 @@
-function genTwistByR(renderer,r = 10,twistRate = 30)
+function genTwistByR(renderer,r = 10,twistRate = 100)
 {
 	// genTwist(renderer,[-100,0,0],[100,0,0]);
 	let H = 20;
@@ -25,21 +25,21 @@ function genTwistByR(renderer,r = 10,twistRate = 30)
 			// console.log("log ",lastSet[j])
 			// if(lastSet[j][0]) 
 			genTwist(renderer,[lastSet[j][0],lastSet[j][1],lastSet[j][2]]
-				,[pointSet[j][0],pointSet[j][1],pointSet[j][2]],r,twistRate);
+				,[pointSet[j][0],pointSet[j][1],pointSet[j][2]],r*5/4,twistRate);
 		}
-		for(let j = 0;j < 4;j++)
-		{
-			lastSet[j+4][0] = pointSet[j+4][0];
-			lastSet[j+4][1] = pointSet[j+4][1];
-			lastSet[j+4][2] = pointSet[j+4][2];
+		// for(let j = 0;j < 4;j++)
+		// {
+		// 	lastSet[j+4][0] = pointSet[j+4][0];
+		// 	lastSet[j+4][1] = pointSet[j+4][1];
+		// 	lastSet[j+4][2] = pointSet[j+4][2];
 
-			pointSet[j+4][0] = -pointSet[j][0];
-			pointSet[j+4][1] = pointSet[j][1];
-			pointSet[j+4][2] = pointSet[j][2];
+		// 	pointSet[j+4][0] = -pointSet[j][0];
+		// 	pointSet[j+4][1] = pointSet[j][1];
+		// 	pointSet[j+4][2] = pointSet[j][2];
 
-			genTwist(renderer,[lastSet[j+4][0],lastSet[j+4][1],lastSet[j+4][2]]
-				,[pointSet[j+4][0],pointSet[j+4][1],pointSet[j+4][2]],r,twistRate);
-		}
+		// 	genTwist(renderer,[lastSet[j+4][0],lastSet[j+4][1],lastSet[j+4][2]]
+		// 		,[pointSet[j+4][0],pointSet[j+4][1],pointSet[j+4][2]],r,twistRate);
+		// }
 	}
 	console.log(")))))))))))))))))))))))))))))))))))))");
 	console.log(pointSet);

@@ -56,7 +56,8 @@ async function GAMES202Main() {
 	let lightPos = [0, -50, 100];
 	// let lightPos = [100, 0, 100];
 	let lightPosInv = [0, -50, 30];
-	let lightRadiance = [5, 5, 5];
+	// let lightRadiance = [5, 5, 5];
+	let lightRadiance = [500,500,500];
 	let lightRadianceNerfed = [0.1,0.1,0.1];
 	lightDir = {
 		'x': 0,
@@ -68,11 +69,11 @@ async function GAMES202Main() {
 	Lights.addLight(lightPos,lightRadiance);
 	// Lights.addLight(lightPosInv,lightRadiance);
 
-	for(let i = -200;i <= 200;i+=20) 
-	Lights.addLight([3000,i,10],lightRadianceNerfed);
+	// for(let i = -200;i <= 200;i+=20) 
+	// Lights.addLight([3000,i,10],lightRadianceNerfed);
 
-	for(let i = -200;i <= 200;i+=20) 
-	Lights.addLight([-3000,i,10],lightRadianceNerfed);
+	// for(let i = -200;i <= 200;i+=20) 
+	// Lights.addLight([-3000,i,10],lightRadianceNerfed);
 	const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
 	renderer.addLight(directionLight);
 	// directionLight = new DirectionalLight(lightRadiance, lightPos2, lightDir, lightUp, renderer.gl);
@@ -167,7 +168,7 @@ async function GAMES202Main() {
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'SkyBoxMaterial', skyBoxTransform);
 
 
-	genTwistByR(renderer,1,4);
+	genTwistByR(renderer,1,7);
 	// genTwist(renderer);
 
 	function createGUI() {

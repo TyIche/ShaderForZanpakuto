@@ -32,12 +32,13 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 							else mat = child.material;
 
 							var indices = Array.from({ length: geo.attributes.position.count }, (v, k) => k);
-
+							
 							let mesh = new Mesh({ name: 'aVertexPosition', array: geo.attributes.position.array },
 								{ name: 'aNormalPosition', array: geo.attributes.normal.array },
 								//{ name: 'aTextureCoord', array: geo.attributes.uv.array },
 								null,
 								indices, transform);
+console.log("@@@@@@@@@@@@@@@@@@@@@@@@@@2",mesh.vertices);
 
 							let colorMap = new Texture();
 							if (mat.map != null) {
@@ -57,7 +58,7 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 									break;
 								case 'KnitwearMaterial':
 									console.log("=======================");
-									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[0.9,0.9,0.9],[0.7,0.7,0.7],Lights,
+									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[7,7,7],Lights,
 										ul,ur,ut,ub,un,uf,ulenx,uleny,con,
 										"./src/shaders/knitwearBPShader/knitwearBP.vs.glsl","./src/shaders/knitwearBPShader/knitwearBP.fs.glsl");
 									break;

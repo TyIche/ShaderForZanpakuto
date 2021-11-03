@@ -1,7 +1,18 @@
-#ifdef GL_ES
-precision mediump float;
-#endif
-#extension GL_EXT_frag_depth : enable
+attribute vec3 aVertexPosition;
+attribute vec3 aNormalPosition;
+attribute vec2 aTextureCoord;
+
+uniform mat4 uModelMatrix;
+uniform mat4 uViewMatrix;
+uniform mat4 uProjectionMatrix;
+
+uniform vec3 ul[4];
+uniform vec3 ur[4];
+uniform vec3 ut[4];
+uniform vec3 ub[4];
+uniform vec3 un[4];
+uniform vec3 uf[4];
+
 uniform vec3 uLightPos[100];
 uniform vec3 uLightRadiance[100];
 
@@ -10,39 +21,27 @@ uniform float uxlen;
 uniform float uylen;
 uniform float utwistRate;
 
-// uniform vec3 ul[4];
-// uniform vec3 ur[4];
-// uniform vec3 ut[4];
-// uniform vec3 ub[4];
-// uniform vec3 un[4];
-// uniform vec3 uf[4];
 
 uniform vec3 uka;
 uniform vec3 uks;
 uniform vec3 ukd;
 
+
 uniform vec3 uCameraPos;
 uniform sampler2D uAlbedoMap;
 uniform float uMetallic;
 
-varying highp vec2 vTextureCoord;
-varying highp vec3 vFragPos;
-varying highp vec3 vNormal;
-varying highp vec3 vTangent;
+varying highp vec4 vFragColor;
 
-varying highp vec3 vl[4];
-varying highp vec3 vr[4];
-varying highp vec3 vt[4];
-varying highp vec3 vb[4];
-varying highp vec3 vn[4];
-varying highp vec3 vf[4];
-varying mat4 vp;
+highp vec2 vTextureCoord;
+highp vec3 vFragPos;
+highp vec3 vNormal;
+highp vec3 vTangent;
 
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
 
 const int STEP = 10;
-
 float PI = acos(-1.0);
 vec3 viewIn,viewStep;
 float dis(vec3 mesh[4],vec3 p)
@@ -70,13 +69,13 @@ bool getView()
     // gl_FragColor = vec4(vdir,1);
     // float T_in,T_out;
 
-    // float a = getIntersection(vp,vdir,ul),b = getIntersection(vp,vdir,ur);
-    // float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
-    // float e = getIntersection(vp,vdir,un),f = getIntersection(vp,vdir,uf);
+    float a = getIntersection(vp,vdir,ul),b = getIntersection(vp,vdir,ur);
+    float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
+    float e = getIntersection(vp,vdir,un),f = getIntersection(vp,vdir,uf);
     
-    float a = getIntersection(vp,vdir,vl),b = getIntersection(vp,vdir,vr);
-    float c = getIntersection(vp,vdir,vt),d = getIntersection(vp,vdir,vb);
-    float e = getIntersection(vp,vdir,vn),f = getIntersection(vp,vdir,vf);
+    // float a = getIntersection(vp,vdir,vl),b = getIntersection(vp,vdir,vr);
+    // float c = getIntersection(vp,vdir,vt),d = getIntersection(vp,vdir,vb);
+    // float e = getIntersection(vp,vdir,vn),f = getIntersection(vp,vdir,vf);
 
     T_in = max(max(min(a,b),min(c,d)),min(e,f));
     T_out = min(min(max(a,b),max(c,d)),max(e,f));
@@ -102,7 +101,7 @@ vec3 BlinnPhong(vec3 I,vec3 lp)
     l = normalize(l);
     vec3 n = nowNormal;
     n = normalize(n);
-    // r/=20.0;
+    r/=20.0;
     ret += ukd * I/r/r * max(0.0,dot(l,n));
 
     vec3 v = uCameraPos - nowFragPos;
@@ -110,7 +109,7 @@ vec3 BlinnPhong(vec3 I,vec3 lp)
     vec3 h = v + l;
     h = normalize(h);
     
-    ret += uks * I/r/r * pow(max(0.0,dot(n,h)) ,350.0);
+    ret += uks * I/r/r * pow(max(0.0,dot(n,h)) ,150.0);
 
     return ret;
 }
@@ -126,16 +125,24 @@ bool check(float x,float y,float x0,float y0,float r)
 }
 void main()
 {
-    
-    // if(vFragPos.z > 1.0) 
+
+    vFragPos = (uModelMatrix * vec4(aVertexPosition, 1.0)).xyz;
+    vNormal = (uModelMatrix * vec4(aNormalPosition, 0.0)).xyz;
+
+    gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
+
+    vTextureCoord = aTextureCoord;
+    vTangent = normalize((uModelMatrix * vec4(0,1,0,1)).xyz);
+
+    vFragColor = vec4(uCameraPos- vFragPos,1);
     // gl_FragColor = vec4(normalize(vFragPos),1);
     // return ;
+
 
     // gl_FragColor = vec4(vec3(dot(normalize(cross(uf[0] - uf[1],uf[2] - uf[1])),vec3(1,0,0))),1);
     // return ;
     
-    if(!getView()) 
-    {gl_FragDepthEXT = 100.0;return;}
+    if(!getView()) return;
     // gl_FragColor = vec4(vec3(1, 1,1 )/1.55,1);
     // return ;
     // gl_FragColor = vec4(0,0 ,1 ,1 );
@@ -145,11 +152,11 @@ void main()
         highp float tt = float(t);
         vec3 now = viewIn + viewStep * tt;
 
-        // float xx = abs(dis(ul,now))/uxlen,yy = abs(dis(ub,now))/uylen;
-        // float zz = abs(dis(uf,now));
+        float xx = abs(dis(ul,now))/uxlen,yy = abs(dis(ub,now))/uylen;
+        float zz = abs(dis(uf,now));
 
-        float xx = abs(dis(vl,now))/uxlen,yy = abs(dis(vb,now))/uylen;
-        float zz = abs(dis(vf,now));
+        // float xx = abs(dis(vl,now))/uxlen,yy = abs(dis(vb,now))/uylen;
+        // float zz = abs(dis(vf,now));
 
         float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate;
         // float theta = zz * utwistRate;
@@ -179,11 +186,7 @@ void main()
                 // color = pow(color, vec3(1.0/2.2)); 
                 ans += color;
             }
-            gl_FragColor = vec4(ans, 1);
-            if((vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w > 1.0)
-            gl_FragColor = vec4(1, 1,1 ,1 );
-
-            gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
+            // vFragColor = vec4(ans, 1);
             return ;
         }
     // normalize(ans);
@@ -191,7 +194,6 @@ void main()
     }
     if(!flag)
     {
-        
-        gl_FragDepthEXT = 100.0;
+        gl_Position.z = 2147483647.0;
     }
 }
