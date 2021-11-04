@@ -36,6 +36,11 @@ varying highp vec3 vt[4];
 varying highp vec3 vb[4];
 varying highp vec3 vn[4];
 varying highp vec3 vf[4];
+varying highp vec3 vA;
+varying highp vec3 vB;
+varying highp vec3 vC;
+varying highp vec3 vD;
+varying highp vec3 vO;
 varying mat4 vp;
 
 highp vec3 nowFragPos;
@@ -73,11 +78,6 @@ bool getView()
 
     T_in = max(max(min(a,b),min(c,d)),min(e,f));
     T_out = min(min(max(a,b),max(c,d)),max(e,f));
-    // gl_FragColor = vec4(normalize(vec3(T_in,T_out,0)),1);
-    
-    // if(T_in <= T_out && T_in > 0.0) gl_FragColor = vec4(vec3(1.0,0.0,0.0),1);
-    // else if(T_in - T_out <= 1.0) gl_FragColor = vec4(vec3(0,1,0) ,1);
-    // else gl_FragColor = vec4(vec3(0,(T_in-T_out)/100.0,0) ,1);
 
     if( T_in <= T_out && T_in > 0.0)
     {
@@ -103,19 +103,14 @@ vec3 BlinnPhong(vec3 I,vec3 lp)
     vec3 h = v + l;
     h = normalize(h);
     
-    ret += uks * I/r/r * pow(max(0.0,dot(n,h)) ,350.0);
+    ret += uks * I/r/r * pow(max(0.0,dot(n,h)) ,50.0);
 
     return ret;
 }
-bool check(float x,float y,float x0,float y0,float r)
-{
-    if( (x - x0) * (x - x0) + (y - y0) * (y - y0) <= r * r)
-    {
-        tmp = vec3( x0,y0 ,0);
-        // tmp = normalize(tmp);
-        return true;
-    }
-    return false;
+bool check(vec3 mid,vec3 proj,float diss)
+{   
+    
+    return true;
 }
 void main()
 {
@@ -132,21 +127,34 @@ void main()
         highp float tt = float(t);
         vec3 now = viewIn + viewStep * tt;
 
-        float xx = abs(dis(vl,now))/uxlen,yy = abs(dis(vb,now))/uylen;
-        float zz = abs(dis(vf,now));
+        float diss = dot(vA - now,cross(vA-vO,vD-vO));
+        vec3 proj = now + diss * cross(vA-vO,vD-vO);
+
+        float T = acos(dot(proj - vO,vA - vO)) / (PI/2.0);
+
+        float zz = T * (PI*length(vA - vO)/2.0);
 
         float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate;
-        if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
 
-        check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
-        check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25))
+
+        vec3 trace = vA*(1.0-T)*(1.0-T)*(1.0-T)+3.0*vB*T*(1.0-T)*(1.0-T)+3.0*vC*T*T*(1.0-T)+vD*T*T*T;
+        // if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
+
+        // check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
+        // check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25))
+        if(check(trace,proj,diss))
         {
             flag = true;
             nowFragPos = now;
-            nowNormal =  now - vec3(now.x,tmp.x,tmp.y);
+            
+            nowNormal =  normalize (now - trace);
+
+            // gl_FragColor = vec4(nowNormal,1 );
+            // return;
+
             if(t < 1) nowNormal = vNormal;
             vec3 ans = vec3(0.0);
-            for(int i = 0;i < 100;i++)
+            for(int i = 0;i < 10;i++)
             {
                 if(uLightRadiance[i].z < 0.0) break;
                 vec3 color =  BlinnPhong(uLightRadiance[i],uLightPos[i]);
@@ -154,8 +162,6 @@ void main()
                 ans += color;
             }
             gl_FragColor = vec4(ans, 1);
-            if((vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w > 1.0)
-            gl_FragColor = vec4(1, 1,1 ,1 );
 
             gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
             return ;
