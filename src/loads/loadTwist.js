@@ -44,7 +44,7 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 	console.log(")))))))))))))))))))))))))))))))))))))");
 	console.log(pointSet);
 }
-function genTwist(renderer,Start = [0,0,0],End = [20,20,20],R = 10,twistRate = 50)
+function genTwist(renderer,Start = [0,0,0],End = [0,0,200],R = 10,twistRate = 50)
 {
     metallic = 1;
 	console.log(Start,End);
@@ -89,7 +89,8 @@ function genTwist(renderer,Start = [0,0,0],End = [20,20,20],R = 10,twistRate = 5
 	[minx,miny,minz,maxx,miny,minz,maxx,miny,maxz,minx,miny,maxz],
 
 	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
-	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz],(maxz - minz)*zscale,(maxy - miny)*yscale,twistRate);
+	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz],
+	(maxz - minz)*zscale,(maxy - miny)*yscale,twistRate);
 
 }
 /*

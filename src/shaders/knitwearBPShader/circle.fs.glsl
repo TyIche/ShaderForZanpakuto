@@ -36,6 +36,7 @@ varying highp vec3 vt[4];
 varying highp vec3 vb[4];
 varying highp vec3 vn[4];
 varying highp vec3 vf[4];
+
 varying mat4 vp;
 
 highp vec3 nowFragPos;
@@ -66,6 +67,13 @@ bool getView()
 {
     vec3 vp = uCameraPos,vdir = vFragPos - uCameraPos;
     vdir = normalize(vdir);
+
+    // gl_FragColor = vec4(vdir,1);
+    // float T_in,T_out;
+
+    // float a = getIntersection(vp,vdir,ul),b = getIntersection(vp,vdir,ur);
+    // float c = getIntersection(vp,vdir,ut),d = getIntersection(vp,vdir,ub);
+    // float e = getIntersection(vp,vdir,un),f = getIntersection(vp,vdir,uf);
     
     float a = getIntersection(vp,vdir,vl),b = getIntersection(vp,vdir,vr);
     float c = getIntersection(vp,vdir,vt),d = getIntersection(vp,vdir,vb);
@@ -103,7 +111,7 @@ vec3 BlinnPhong(vec3 I,vec3 lp)
     vec3 h = v + l;
     h = normalize(h);
     
-    ret += uks * I/r/r * pow(max(0.0,dot(n,h)) ,350.0);
+    ret += uks * I/r/r * pow(max(0.0,dot(n,h)) ,50.0);
 
     return ret;
 }
@@ -143,10 +151,25 @@ void main()
         {
             flag = true;
             nowFragPos = now;
-            nowNormal =  now - vec3(now.x,tmp.x,tmp.y);
+            vec3 xa = normalize(vf[0] - vf[1]);
+            vec3 ya = normalize(vf[2] - vf[1]);
+            vec3 za = normalize(cross(xa,ya));
+
+            // mat4 transM = mat4(
+            //     xa.x,xa.y,xa.z,0,
+            //     ya.x,ya.y,ya.z,0,
+            //     za.x,za.y,za.z,0,
+            //     0,0,0,1
+            // );
+            
+            nowNormal =  normalize (now - (vf[1] + tmp.x*uxlen*xa + tmp.y*uylen*ya + zz*za));
+
+            // gl_FragColor = vec4(nowNormal,1 );
+            // return;
+
             if(t < 1) nowNormal = vNormal;
             vec3 ans = vec3(0.0);
-            for(int i = 0;i < 100;i++)
+            for(int i = 0;i < 10;i++)
             {
                 if(uLightRadiance[i].z < 0.0) break;
                 vec3 color =  BlinnPhong(uLightRadiance[i],uLightPos[i]);
