@@ -67,6 +67,7 @@ async function GAMES202Main() {
 	let lightUp = [1, 0, 0];
 
 	Lights.addLight(lightPos,lightRadiance);
+	Lights.addLight([30,30,30],lightRadiance);
 	// Lights.addLight(lightPosInv,lightRadiance);
 
 	// for(let i = -200;i <= 200;i+=20) 

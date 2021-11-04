@@ -41,7 +41,7 @@ varying mat4 vp;
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
 
-const int STEP = 10;
+const int STEP = 50;
 
 float PI = acos(-1.0);
 vec3 viewIn,viewStep;
@@ -131,28 +131,18 @@ void main()
     // gl_FragColor = vec4(normalize(vFragPos),1);
     // return ;
 
-    // gl_FragColor = vec4(vec3(dot(normalize(cross(uf[0] - uf[1],uf[2] - uf[1])),vec3(1,0,0))),1);
-    // return ;
-    
     if(!getView()) 
     {gl_FragDepthEXT = 100.0;return;}
-    // gl_FragColor = vec4(vec3(1, 1,1 )/1.55,1);
-    // return ;
-    // gl_FragColor = vec4(0,0 ,1 ,1 );
     bool flag = false;
     for(int t = 0;t <= STEP;t++)
     {
         highp float tt = float(t);
         vec3 now = viewIn + viewStep * tt;
 
-        // float xx = abs(dis(ul,now))/uxlen,yy = abs(dis(ub,now))/uylen;
-        // float zz = abs(dis(uf,now));
-
         float xx = abs(dis(vl,now))/uxlen,yy = abs(dis(vb,now))/uylen;
         float zz = abs(dis(vf,now));
 
         float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate;
-        // float theta = zz * utwistRate;
         if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
 
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
@@ -162,21 +152,12 @@ void main()
             nowFragPos = now;
             nowNormal =  now - vec3(now.x,tmp.x,tmp.y);
             if(t < 1) nowNormal = vNormal;
-            // if(t > 0.5) nowNormal = tmp;
-            // gl_FragColor = vec4(1,1,1,1);
-            // return;
-            // gl_FragColor = vec4(normalize(viewIn),1);
-            // gl_FragColor = vec4(vec3(1.0),1);
-            // return;
             vec3 ans = vec3(0.0);
             for(int i = 0;i < 100;i++)
             {
                 if(uLightRadiance[i].z < 0.0) break;
                 vec3 color =  BlinnPhong(uLightRadiance[i],uLightPos[i]);
                 color += uka;
-                // return ;
-                // color = color / (color + vec3(1.0));
-                // color = pow(color, vec3(1.0/2.2)); 
                 ans += color;
             }
             gl_FragColor = vec4(ans, 1);
@@ -186,8 +167,6 @@ void main()
             gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
             return ;
         }
-    // normalize(ans);
-    // ans*=255.0;
     }
     if(!flag)
     {

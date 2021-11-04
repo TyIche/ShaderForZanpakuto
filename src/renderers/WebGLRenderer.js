@@ -57,7 +57,7 @@ class WebGLRenderer {
             // meshh.transform.translate = [100,100,10];
             let MeshR = new MeshRender(this.gl,meshh,new EmissiveMaterial([Lights.lightRadiances[i],Lights.lightRadiances[i+1],Lights.lightRadiances[i+2]]));
             MeshR.draw(this.camera);
-            break;
+            // break;
         }
         
         for (let i = 0; i < this.meshes.length; i++) {
