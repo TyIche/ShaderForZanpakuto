@@ -133,6 +133,7 @@ bool check2(vec3 mid,vec3 proj,float diss,float theta)
     float yy = length(mid - proj);
     yy = length(proj - vO) <= length(vA - vO)?-yy:yy;
     yy /= uxlen;
+    yy = 0.5 + yy;
     float xx = 0.5 + diss/uylen;
     return (check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
@@ -161,6 +162,11 @@ void main()
 
         // if(abs(diss) <= 10.0)
         // gl_FragColor = vec4(normalize(proj) ,1 );return;
+        // if(length(now - vD) <= 1.0) 
+        // {
+        //     gl_FragColor = vec4(1,0 ,0 ,1 );
+        //     return;
+        // }
 
         float T = acos(dot(normalize(proj - vO),normalize(vA - vO))) / (PI/2.0);
 
@@ -171,7 +177,7 @@ void main()
 
         vec3 trace = vA*(1.0-T)*(1.0-T)*(1.0-T)+3.0*vB*T*(1.0-T)*(1.0-T)+3.0*vC*T*T*(1.0-T)+vD*T*T*T;
 
-
+        // if(length(trace - now) <= 1.0) {gl_FragColor = vec4(0,1 ,0 ,1 );return;}
         if(check2(trace,proj,diss,theta))
         {
             flag = true;
@@ -198,8 +204,9 @@ void main()
         }
         float sdf = diss*diss + (length(vA - vO) - length(vO - proj)) * (length(vA - vO) - length(vO - proj));
         sdf = sqrt(sdf);
-        // last += max (viewStep,sdf - uylen/2.0);
-        last += max (0.0,sdf - uylen/2.0);
+        // last += viewStep;
+        // if(sdf < uylen/2.0) {gl_FragColor = vec4(1, 1, 1,1 );return;}
+        last += max (viewStep,sdf - uylen/2.0);
         now = viewIn + last * viewDir;
     }
     if(!flag)
