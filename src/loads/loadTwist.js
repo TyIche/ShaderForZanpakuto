@@ -44,10 +44,23 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 	console.log(")))))))))))))))))))))))))))))))))))))");
 	console.log(pointSet);
 }
-function genCircleTwist(renderer,Start = [0,0,0],End = [10,10,0],O = [10,0,0],R = 10,twistRate = 50)
+function genCircleTwist(renderer,Start = [0,0,0],End = [10,10,0],O = [10,0,0],R = 5,twistRate = 50)
 {
 	metallic = 1;
-	
+	let Trans = setTransform(0,0,0,5,5,5,0,0,0);
+	let minx = -3.594112,maxx = 3.594112,miny = -3.594112,maxy = 3.594112,minz = -3.594112,maxz = 3.594112;
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearCircle', Trans, metallic,
+	1,1,
+	// [minx,maxy,maxz,maxx,maxy,maxz,maxx,miny,maxz,minx,miny,maxz]
+	[minx,maxy,maxz,minx,miny,maxz,maxx,miny,maxz,maxx,maxy,maxz]
+	,[minx,maxy,minz,maxx,maxy,minz,maxx,miny,minz,minx,miny,minz],
+
+	[minx,maxy,minz, minx,maxy,maxz, maxx,maxy,maxz, maxx,maxy,minz],
+	[minx,miny,minz,maxx,miny,minz,maxx,miny,maxz,minx,miny,maxz],
+
+	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
+	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz],
+	R*2,R*2,twistRate,[0,miny,0],[0,0.552 * maxy,0],[0.448*maxx,0,0],[maxx,0,0],[maxx,miny,0]);
 }
 function genTwist(renderer,Start = [0,0,0],End = [0,0,200],R = 10,twistRate = 50)
 {

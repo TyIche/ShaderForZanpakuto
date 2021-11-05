@@ -30,26 +30,27 @@ varying highp vec3 vFragPos;
 varying highp vec3 vNormal;
 varying highp vec3 vTangent;
 
-varying highp vec3 vl[4];
-varying highp vec3 vr[4];
-varying highp vec3 vt[4];
-varying highp vec3 vb[4];
-varying highp vec3 vn[4];
-varying highp vec3 vf[4];
-varying highp vec3 vA;
-varying highp vec3 vB;
-varying highp vec3 vC;
-varying highp vec3 vD;
-varying highp vec3 vO;
+varying vec3 vl[4];
+varying vec3 vr[4];
+varying vec3 vt[4];
+varying vec3 vb[4];
+varying vec3 vn[4];
+varying vec3 vf[4];
 varying mat4 vp;
 
+highp vec3 vA;
+highp vec3 vB;
+highp vec3 vC;
+highp vec3 vD;
+highp vec3 vO;
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
 
 const int STEP = 50;
-
+const float EPSILON = 0.001;
 float PI = acos(-1.0);
-vec3 viewIn,viewStep;
+vec3 viewIn,viewDir;
+float viewStep;
 float dis(vec3 mesh[4],vec3 p)
 {
     vec3 N = cross(mesh[0] - mesh[1],mesh[2] - mesh[1]);
@@ -69,6 +70,15 @@ float getIntersection(vec3 vp,vec3 vdir,vec3 mesh[4])
 float T_in = 0.0,T_out = 10000000.0;
 bool getView()
 {
+    vA = vb[0]+vb[1]+vb[2]+vb[3];vA /= 4.0;
+    vD = vn[0]+vn[1]+vn[2]+vn[3];vD /= 4.0;
+    vO = vb[2]+vb[1];vO /= 2.0;
+
+    vec3 tmp = 2.0*((vA + vD)/2.0 - vO)+vO;
+    vB = (0.552*tmp + 0.448*vA);
+    vC = (0.552*tmp + 0.448*vD);
+
+
     vec3 vp = uCameraPos,vdir = vFragPos - uCameraPos;
     vdir = normalize(vdir);
     
@@ -82,7 +92,8 @@ bool getView()
     if( T_in <= T_out && T_in > 0.0)
     {
         viewIn = vp + T_in * vdir;
-        viewStep = (T_out - T_in) * vdir / float(STEP);
+        viewStep = (T_out - T_in) / float(STEP);
+        viewDir = vdir;
         return true;
     }
     return false;
@@ -107,15 +118,25 @@ vec3 BlinnPhong(vec3 I,vec3 lp)
 
     return ret;
 }
-bool check(vec3 mid,vec3 proj,float diss,float theta)
+bool check(float x,float y,float x0,float y0,float r)
+{
+    if( (x - x0) * (x - x0) + (y - y0) * (y - y0) <= r * r)
+    {
+        tmp = vec3( x0,y0 ,0);
+        // tmp = normalize(tmp);
+        return true;
+    }
+    return false;
+}
+bool check2(vec3 mid,vec3 proj,float diss,float theta)
 {   
-    float xx = length(mid - proj);
-    xx = length(proj - vO) <= length(vA - vO)?-xx:xx;
-    float yy = 0.5 + diss/uylen;
+    float yy = length(mid - proj);
+    yy = length(proj - vO) <= length(vA - vO)?-yy:yy;
+    yy /= uxlen;
+    float xx = 0.5 + diss/uylen;
     return (check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25));
-    
 }
 void main()
 {
@@ -127,15 +148,21 @@ void main()
     if(!getView()) 
     {gl_FragDepthEXT = 100.0;return;}
     bool flag = false;
+    vec3 now = viewIn;
+    float last = 0.0;
     for(int t = 0;t <= STEP;t++)
     {
-        highp float tt = float(t);
-        vec3 now = viewIn + viewStep * tt;
+        if(last > float(STEP) * viewStep) break;
+        //highp float tt = float(t);
+        //vec3 now = viewIn + viewStep * tt;
+        
+        float diss = dot(vA - now,normalize(cross(vA-vO,vD-vO)));
+        vec3 proj = now + diss * normalize(cross(vA-vO,vD-vO));
 
-        float diss = dot(vA - now,cross(vD-vO,vA-vO));
-        vec3 proj = now + diss * cross(vD-vO,vA-vO);
+        // if(abs(diss) <= 10.0)
+        // gl_FragColor = vec4(normalize(proj) ,1 );return;
 
-        float T = acos(dot(proj - vO,vA - vO)) / (PI/2.0);
+        float T = acos(dot(normalize(proj - vO),normalize(vA - vO))) / (PI/2.0);
 
         float zz = T * (PI*length(vA - vO)/2.0);
 
@@ -143,11 +170,9 @@ void main()
 
 
         vec3 trace = vA*(1.0-T)*(1.0-T)*(1.0-T)+3.0*vB*T*(1.0-T)*(1.0-T)+3.0*vC*T*T*(1.0-T)+vD*T*T*T;
-        // if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
 
-        // check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
-        // check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25))
-        if(check(trace,proj,diss,theta))
+
+        if(check2(trace,proj,diss,theta))
         {
             flag = true;
             nowFragPos = now;
@@ -171,10 +196,14 @@ void main()
             gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
             return ;
         }
+        float sdf = diss*diss + (length(vA - vO) - length(vO - proj)) * (length(vA - vO) - length(vO - proj));
+        sdf = sqrt(sdf);
+        // last += max (viewStep,sdf - uylen/2.0);
+        last += max (0.0,sdf - uylen/2.0);
+        now = viewIn + last * viewDir;
     }
     if(!flag)
-    {
-        
+    {   
         gl_FragDepthEXT = 100.0;
     }
 }
