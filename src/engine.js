@@ -180,7 +180,7 @@ async function GAMES202Main() {
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
-	// genCircleTwist(renderer);
+	genCircleTwist(renderer);
 	// genTwist(renderer);
 
 	function createGUI() {
