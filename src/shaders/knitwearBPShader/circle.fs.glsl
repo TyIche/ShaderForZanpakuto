@@ -46,7 +46,7 @@ highp vec3 vO;
 highp vec3 nowFragPos;
 highp vec3 tmp,nowNormal;
 
-const int STEP = 50;
+const int STEP = 300;
 const float EPSILON = 0.001;
 float PI = acos(-1.0);
 vec3 viewIn,viewDir;
@@ -162,7 +162,7 @@ void main()
 
         // if(abs(diss) <= 10.0)
         // gl_FragColor = vec4(normalize(proj) ,1 );return;
-        // if(length(now - vD) <= 1.0) 
+        // if(length(now - (viewIn + viewStep*float(STEP)*viewDir)) <= 1.01) 
         // {
         //     gl_FragColor = vec4(1,0 ,0 ,1 );
         //     return;
@@ -178,7 +178,7 @@ void main()
         vec3 trace = vA*(1.0-T)*(1.0-T)*(1.0-T)+3.0*vB*T*(1.0-T)*(1.0-T)+3.0*vC*T*T*(1.0-T)+vD*T*T*T;
 
         // if(length(trace - now) <= 1.0) {gl_FragColor = vec4(0,1 ,0 ,1 );return;}
-        if(check2(trace,proj,diss,theta))
+        if(check2(trace,proj,diss,theta)&&T>=0.0&&T<=1.0)
         {
             flag = true;
             nowFragPos = now;
@@ -198,6 +198,8 @@ void main()
                 ans += color;
             }
             gl_FragColor = vec4(ans, 1);
+            // if(T <= 1.0)
+            // gl_FragColor = vec4(1,1,1,1);
 
             gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
             return ;
@@ -205,12 +207,11 @@ void main()
         float sdf = diss*diss + (length(vA - vO) - length(vO - proj)) * (length(vA - vO) - length(vO - proj));
         sdf = sqrt(sdf);
         // last += viewStep;
-        // if(sdf < uylen/2.0) {gl_FragColor = vec4(1, 1, 1,1 );return;}
         last += max (viewStep,sdf - uylen/2.0);
         now = viewIn + last * viewDir;
     }
     if(!flag)
     {   
-        gl_FragDepthEXT = 100.0;
+        gl_FragDepthEXT = 128.0;
     }
 }

@@ -179,8 +179,8 @@ async function GAMES202Main() {
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
-	// genTwistByR(renderer,1,7);
-	genCircleTwist(renderer);
+	genTwistByR(renderer,1,7);
+	// genCircleTwist(renderer,1,[-8*2+2,-1,22],5/4,7,[-Math.PI/2,Math.PI,0]);
 	// genTwist(renderer);
 
 	function createGUI() {

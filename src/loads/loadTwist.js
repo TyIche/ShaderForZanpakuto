@@ -4,7 +4,7 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 	let H = 20;
 	let d =  2*r;
 	let k3 = Math.sqrt(3);
-
+	
 	let pointSet = [[-8*d,-r,H],[-8*d,-d-r,H],[-8*d,-2*d - r,H],[-8*d,-3 * d - r,H],
 	[8*d,-r,H],[8*d,-d-r,H],[8*d,-2*d - r,H],[8*d,-3 * d - r,H]];
 	let lastSet = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
@@ -20,6 +20,41 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 			lastSet[j][2] = pointSet[j][2];
 			//console.log("LOG ",i);
 			if(i == 0) pointSet[j][0] = (3/k3*d*(2*j+1))/2-8/k3*d;
+			else if(i == 1)
+			{
+				genCircleTwist(renderer,r*5/4,[lastSet[j][0]+r*5/4,lastSet[j][1],lastSet[j][2]],r*5/4,twistRate,
+					[-Math.PI/2,Math.PI,0]);
+				genCircleTwist(renderer,r*5/4,[lastSet[j][0]+r*5/4,lastSet[j][1],lastSet[j][2]+r*5/2],r*5/4,twistRate,
+				[Math.PI/2,-Math.PI/3,0]);
+					// [0,0,0]);
+
+				pointSet[j][0] += r * (1+ k3/2) * 5 /4;
+				pointSet[j][1] -= r/2*5/4;
+				pointSet[j][2] += d*5/4;
+
+				lastSet[j][0] = pointSet[j][0];
+				lastSet[j][1] = pointSet[j][1];
+				lastSet[j][2] = pointSet[j][2];
+				continue;
+			}
+			else if(i == 3)
+			{
+				pointSet[j][0] += r * (1+ k3/2) * 5 /4;
+				pointSet[j][1] -= r/2*5/4;
+				pointSet[j][2] -= d*5/4;
+
+				lastSet[j][0] = pointSet[j][0];
+				lastSet[j][1] = pointSet[j][1];
+				lastSet[j][2] = pointSet[j][2];
+				genCircleTwist(renderer,r*5/4,[lastSet[j][0]-r*5/4,lastSet[j][1],lastSet[j][2]],r*5/4,twistRate,
+					[Math.PI/2,Math.PI,Math.PI]);
+				genCircleTwist(renderer,r*5/4,[lastSet[j][0]-r*5/4,lastSet[j][1],lastSet[j][2]+r*5/2],r*5/4,twistRate,
+				[-Math.PI/2,Math.PI/3,Math.PI]);
+					// [0,0,0]);
+
+
+				continue;
+			}
 			else if( i == 4) pointSet[j][0] = 8*d;
 			else pointSet[j][0] += delta[i][0],pointSet[j][1] += delta[i][1],pointSet[j][2]+=delta[i][2];
 			// console.log("log ",lastSet[j])
@@ -41,13 +76,13 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 		// 		,[pointSet[j+4][0],pointSet[j+4][1],pointSet[j+4][2]],r,twistRate);
 		// }
 	}
-	console.log(")))))))))))))))))))))))))))))))))))))");
-	console.log(pointSet);
+	// console.log(")))))))))))))))))))))))))))))))))))))");
+	// console.log(pointSet);
 }
-function genCircleTwist(renderer,Start = [0,0,0],End = [10,10,0],O = [10,0,0],R = 5,twistRate = 50)
+function genCircleTwist(renderer,a = 10,O = [0,-10,0],R = 10,twistRate = 50,rotate = [0,0,0])
 {
 	metallic = 1;
-	let Trans = setTransform(0,0,0,5,5,5,0,0,0);
+	let Trans = setTransform(O[0],O[1],O[2],a/3.594112,a/3.594112,a/3.594112,rotate[0],rotate[1],rotate[2]);
 	let minx = -3.594112,maxx = 3.594112,miny = -3.594112,maxy = 3.594112,minz = -3.594112,maxz = 3.594112;
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'KnitwearCircle', Trans, metallic,
 	1,1,
@@ -79,6 +114,7 @@ function genTwist(renderer,Start = [0,0,0],End = [0,0,200],R = 10,twistRate = 50
     // let minx = -50,maxx = 50,miny = -5,maxy = 5,minz = -5,maxz = 5;
 	let minx = -3.594112,maxx = 3.594112,miny = -3.594112,maxy = 3.594112,minz = -3.594112,maxz = 3.594112;
 	// minx *= xscale;maxx *= xscale;miny *= yscale;maxy *= yscale;minz *= zscale;maxz *= zscale;
+	
 	let theta = dir[2]*dir[2]+dir[0]*dir[0] + 1
 	 - dir[2]*dir[2] - (dir[0]-1)*(dir[0]-1);
 	//  console.log(dir[0]*dir[0] + 1,(dir[0]-1)*(dir[0]-1),dir[0])
