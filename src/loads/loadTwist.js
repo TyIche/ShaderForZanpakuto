@@ -11,9 +11,11 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 	let SP = [-4/k3*d,0,H];
 	let delta = [[0,0,0],[0,0,d],[4*d/k3,-4*d,0],[0,0,-d],[0,0,0]];
 	// let delta = [[0,0,0]];
+	let theta = -0.2;
 	for(let i in delta)
 	{
-		for(let j = 0 ;j< 4;j++)
+		console.log(theta);
+		for(let j = 0 ;j< 1;j++)
 		{
 			lastSet[j][0] = pointSet[j][0];
 			lastSet[j][1] = pointSet[j][1];
@@ -22,14 +24,15 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 			if(i == 0) pointSet[j][0] = (3/k3*d*(2*j+1))/2-8/k3*d;
 			else if(i == 1)
 			{
-				genCircleTwist(renderer,r*5/4,[lastSet[j][0]+r*5/4,lastSet[j][1],lastSet[j][2]],r*5/4,twistRate,
-					[-Math.PI/2,Math.PI,0]);
-				genCircleTwist(renderer,r*5/4,[lastSet[j][0]+r*5/4,lastSet[j][1],lastSet[j][2]+r*5/2],r*5/4,twistRate,
-				[Math.PI/2,-Math.PI/3,0]);
+				theta +=genCircleTwist(renderer,r*5/4,[lastSet[j][0]+r*5/4,lastSet[j][1],lastSet[j][2]],r*5/4,twistRate,
+					[-Math.PI/2,Math.PI,0],theta);
+				
+				theta +=genCircleTwist(renderer,r*5/4,[lastSet[j][0]+r*5/4,lastSet[j][1],lastSet[j][2]+r*5/2],r*5/4,twistRate,
+				[Math.PI/2,-Math.PI/3,0],theta);
 					// [0,0,0]);
 
-				pointSet[j][0] += r * (1+ k3/2) * 5 /4;
-				pointSet[j][1] -= r/2*5/4;
+				pointSet[j][0] += r * (1+ 1/2) * 5 /4;
+				pointSet[j][1] -= r/2*k3*5/4;
 				pointSet[j][2] += d*5/4;
 
 				lastSet[j][0] = pointSet[j][0];
@@ -39,17 +42,17 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 			}
 			else if(i == 3)
 			{
-				pointSet[j][0] += r * (1+ k3/2) * 5 /4;
-				pointSet[j][1] -= r/2*5/4;
+				pointSet[j][0] += r * (1+ 1/2) * 5 /4;
+				pointSet[j][1] -= r/2*k3*5/4;
 				pointSet[j][2] -= d*5/4;
 
 				lastSet[j][0] = pointSet[j][0];
 				lastSet[j][1] = pointSet[j][1];
 				lastSet[j][2] = pointSet[j][2];
-				genCircleTwist(renderer,r*5/4,[lastSet[j][0]-r*5/4,lastSet[j][1],lastSet[j][2]],r*5/4,twistRate,
-					[Math.PI/2,Math.PI,Math.PI]);
-				genCircleTwist(renderer,r*5/4,[lastSet[j][0]-r*5/4,lastSet[j][1],lastSet[j][2]+r*5/2],r*5/4,twistRate,
-				[-Math.PI/2,Math.PI/3,Math.PI]);
+				theta +=genCircleTwist(renderer,r*5/4,[lastSet[j][0]-r*5/4,lastSet[j][1],lastSet[j][2]],r*5/4,twistRate,
+					[Math.PI/2,Math.PI,Math.PI],theta);
+				theta +=genCircleTwist(renderer,r*5/4,[lastSet[j][0]-r*5/4,lastSet[j][1],lastSet[j][2]+r*5/2],r*5/4,twistRate,
+				[-Math.PI/2,Math.PI/3,Math.PI],theta);
 					// [0,0,0]);
 
 
@@ -59,8 +62,8 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 			else pointSet[j][0] += delta[i][0],pointSet[j][1] += delta[i][1],pointSet[j][2]+=delta[i][2];
 			// console.log("log ",lastSet[j])
 			// if(lastSet[j][0]) 
-			genTwist(renderer,[lastSet[j][0],lastSet[j][1],lastSet[j][2]]
-				,[pointSet[j][0],pointSet[j][1],pointSet[j][2]],r*5/4,twistRate);
+			theta += genTwist(renderer,[lastSet[j][0],lastSet[j][1],lastSet[j][2]]
+				,[pointSet[j][0],pointSet[j][1],pointSet[j][2]],r*5/4,twistRate,theta);
 		}
 		// for(let j = 0;j < 4;j++)
 		// {
@@ -79,7 +82,7 @@ function genTwistByR(renderer,r = 10,twistRate = 100)
 	// console.log(")))))))))))))))))))))))))))))))))))))");
 	// console.log(pointSet);
 }
-function genCircleTwist(renderer,a = 10,O = [0,-10,0],R = 10,twistRate = 50,rotate = [0,0,0])
+function genCircleTwist(renderer,a = 10,O = [0,-10,0],R = 10,twistRate = 50,rotate = [0,0,0],uTheta = 0)
 {
 	metallic = 1;
 	let Trans = setTransform(O[0],O[1],O[2],a/3.594112,a/3.594112,a/3.594112,rotate[0],rotate[1],rotate[2]);
@@ -95,9 +98,12 @@ function genCircleTwist(renderer,a = 10,O = [0,-10,0],R = 10,twistRate = 50,rota
 
 	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
 	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz],
-	R*2,R*2,twistRate,[0,miny,0],[0,0.552 * maxy,0],[0.448*maxx,0,0],[maxx,0,0],[maxx,miny,0]);
+	R*2,R*2,twistRate,[0,miny,0],[0,0.552 * maxy,0],[0.448*maxx,0,0],[maxx,0,0],[maxx,miny,0],uTheta);
+
+	return (Math.PI*a/2 - Math.floor((Math.PI*a/2)/twistRate)*twistRate)*(2.0*Math.PI)/	twistRate;
+
 }
-function genTwist(renderer,Start = [0,0,0],End = [0,0,200],R = 10,twistRate = 50)
+function genTwist(renderer,Start = [0,0,0],End = [0,0,200],R = 10,twistRate = 50,uTheta = 0)
 {
     metallic = 1;
 	console.log(Start,End);
@@ -144,8 +150,9 @@ function genTwist(renderer,Start = [0,0,0],End = [0,0,200],R = 10,twistRate = 50
 
 	[maxx,miny,minz,maxx,maxy,minz,maxx,maxy,maxz,maxx,miny,maxz],
 	[minx,miny,minz,minx,miny,maxz,minx,maxy,maxz,minx,maxy,minz],
-	(maxz - minz)*zscale,(maxy - miny)*yscale,twistRate);
+	(maxz - minz)*zscale,(maxy - miny)*yscale,twistRate,uTheta);
 
+	return (len - Math.floor(len/twistRate)*twistRate)*(2.0*Math.PI)/	twistRate;
 }
 /*
 14 6

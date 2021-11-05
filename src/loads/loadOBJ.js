@@ -1,5 +1,5 @@
 function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, roughness=0.2,roughness2=0.2,ul = [],ur = [],ut = [],ub = [],un = [],uf = [],
-	ulenx = 0,uleny = 0,con = 1,uA = [],uB = [],uC = [],uD = [],uO = []) {
+	ulenx = 0,uleny = 0,con = 1,uA = [],uB = [],uC = [],uD = [],uO = [],uTheta = 0) {
 
 	const manager = new THREE.LoadingManager();
 	manager.onProgress = function (item, loaded, total) {
@@ -48,7 +48,7 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 								colorMap.CreateConstantTexture(renderer.gl, mat.color.toArray());
 							}
 							let material;
-							console.log(objMaterial);
+							// console.log(objMaterial);
 							switch (objMaterial) {
 								case 'SkyBoxMaterial':
 									material = buildSkyBoxMaterial("./src/shaders/skyBoxShader/SkyBoxVertex.glsl", "./src/shaders/skyBoxShader/SkyBoxFragment.glsl");
@@ -59,12 +59,12 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 								case 'KnitwearMaterial':
 									console.log("=======================");
 									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[11,11,11],Lights,
-										ul,ur,ut,ub,un,uf,ulenx,uleny,con,
+										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uTheta,
 										"./src/shaders/knitwearBPShader/knitwearBP.vs.glsl","./src/shaders/knitwearBPShader/knitwearBP.fs.glsl");
 									break;
 								case 'KnitwearCircle':
 									material = buildKnitwearCircle(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[11,11,11],Lights,
-										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uA,uB,uC,uD,uO,
+										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uA,uB,uC,uD,uO,uTheta,
 										"./src/shaders/knitwearBPShader/circle.vs.glsl","./src/shaders/knitwearBPShader/circle.fs.glsl");
 									break;
 								case 'KullaContyMaterial':

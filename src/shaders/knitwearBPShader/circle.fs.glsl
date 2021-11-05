@@ -24,6 +24,7 @@ uniform vec3 ukd;
 uniform vec3 uCameraPos;
 uniform sampler2D uAlbedoMap;
 uniform float uMetallic;
+uniform float uTheta;
 
 varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPos;
@@ -122,7 +123,7 @@ bool check(float x,float y,float x0,float y0,float r)
 {
     if( (x - x0) * (x - x0) + (y - y0) * (y - y0) <= r * r)
     {
-        tmp = vec3( x0,y0 ,0);
+        tmp = vec3( x0-0.5,y0-0.5 ,0);
         // tmp = normalize(tmp);
         return true;
     }
@@ -135,6 +136,9 @@ bool check2(vec3 mid,vec3 proj,float diss,float theta)
     yy /= uxlen;
     yy = 0.5 + yy;
     float xx = 0.5 + diss/uylen;
+    float tmp = xx;
+    xx = yy;
+    yy = tmp;
     return (check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25));
@@ -172,7 +176,7 @@ void main()
 
         float zz = T * (PI*length(vA - vO)/2.0);
 
-        float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate;
+        float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate + uTheta;
 
 
         vec3 trace = vA*(1.0-T)*(1.0-T)*(1.0-T)+3.0*vB*T*(1.0-T)*(1.0-T)+3.0*vC*T*T*(1.0-T)+vD*T*T*T;
@@ -183,10 +187,11 @@ void main()
             flag = true;
             nowFragPos = now;
             
-            nowNormal =  normalize (now - trace);
+            nowNormal =  normalize (now - (trace + normalize(cross(vD-vO,vA-vO)*tmp.x)
+            +normalize(trace - vO)*tmp.y));
 
-            // gl_FragColor = vec4(nowNormal,1 );
-            // return;
+            gl_FragColor = vec4(nowNormal,1 );
+            return;
 
             if(t < 1) nowNormal = vNormal;
             vec3 ans = vec3(0.0);

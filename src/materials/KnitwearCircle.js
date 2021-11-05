@@ -1,7 +1,7 @@
 class KnitwearCircle extends Material {
 
     constructor(albedo, metallic, ka,ks,kd,lights,ul,ur,ut,ub,un,uf,
-        xlen,ylen,tr,uA,uB,uC,uD,uO,
+        xlen,ylen,tr,uA,uB,uC,uD,uO,uTheta,
         vertexShader, fragmentShader) {
         super({
             'uAlbedoMap': { type: 'texture', value: albedo },
@@ -25,6 +25,7 @@ class KnitwearCircle extends Material {
             'uO':{type:'3fv',value:uO},
             'uLightRadiance': { type: '3fv', value: lights.lightRadiances },
             'uLightPos': { type: '3fv', value: lights.lightPoss },
+            'uTheta':{type:'1f',value:uTheta}
         }, [], vertexShader, fragmentShader);
         
         // console.log(lights.lightRadiances,lights.lightPoss);
@@ -32,13 +33,12 @@ class KnitwearCircle extends Material {
 }
 
 async function buildKnitwearCircle(albedo, metallic,ka,ks,kd,light,ul,ur,ut,
-    ub,un,uf,xlen,ylen,tr,uA,uB,uC,uD,uO, vertexPath, fragmentPath)
+    ub,un,uf,xlen,ylen,tr,uA,uB,uC,uD,uO,uTheta, vertexPath, fragmentPath)
 {   
-    console.log("#######################");
-    console.log(vertexPath,fragmentPath);
+
     let vertexShader = await getShaderString(vertexPath);
     let fragmentShader = await getShaderString(fragmentPath);
     
     return new KnitwearCircle(albedo, metallic, ka,ks,kd, light,
-        ul,ur,ut,ub,un,uf, xlen,ylen,tr,uA,uB,uC,uD,uO,vertexShader, fragmentShader);
+        ul,ur,ut,ub,un,uf, xlen,ylen,tr,uA,uB,uC,uD,uO,uTheta,vertexShader, fragmentShader);
 }
