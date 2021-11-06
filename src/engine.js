@@ -179,7 +179,7 @@ async function GAMES202Main() {
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
-	THETA = 0;
+	THETA = [0,0,0,0,0,0,0,0];
 
 
 	let quq = genTwistByR(renderer,1,7);

@@ -10,12 +10,13 @@ function genTwistByR(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r,
 	// [8*d,-r,H],[8*d,-d-r,H],[8*d,-2*d - r,H],[8*d,-3 * d - r,H]];
 	let lastSet = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
 	let SP = [-4/k3*d,0,H];
-	let delta = [[0,0,0],[0,0,d],[4*d/k3,-4*d,0],[0,0,-d],[0,0,0],[0,0,0],[0,0,d-H],[]];
+	let kk = 3/4;
+	let delta = [[0,0,0],[0,0,d],[4*d/k3*kk,-4*d*kk,0],[0,0,-d],[0,0,0],[0,0,0],[0,0,d-H],[]];
 	// let delta = [[0,0,0]];
 	
-	for(let j = 0 ;j< 4;j++)
+	for(let j = 0 ;j<4;j++)
 	{
-		let theta = THETA;
+		let theta = THETA[j];
 		for(let i in delta)
 		{
 			
@@ -112,7 +113,7 @@ function genTwistByR(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r,
 		// 	genTwist(renderer,[lastSet[j+4][0],lastSet[j+4][1],lastSet[j+4][2]]
 		// 		,[pointSet[j+4][0],pointSet[j+4][1],pointSet[j+4][2]],r,twistRate);
 		// }
-		THETA = theta;
+		THETA[j] = theta;
 	}
 
 	// console.log(")))))))))))))))))))))))))))))))))))))");
@@ -132,12 +133,13 @@ function genTwistByR2(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r
 	// [8*d,-r,H],[8*d,-d-r,H],[8*d,-2*d - r,H],[8*d,-3 * d - r,H]];
 	let lastSet = [[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]];
 	let SP = [-4/k3*d,0,H];
-	let delta = [[0,0,0],[0,0,-d],[-4*d/k3,-4*d,0],[0,0,d],[0,0,0],[0,0,0],[0,0,H-d],[]];
+	kk = 3/4;
+	let delta = [[0,0,0],[0,0,-d],[-4*d/k3*kk,-4*d*kk,0],[0,0,d],[0,0,0],[0,0,0],[0,0,H-d],[]];
 	// let delta = [[0,0,0]];
 	
 	for(let j = 0 ;j< 4;j++)
 	{
-		let theta = THETA;
+		let theta = THETA[j];
 		for(let i in delta)
 		{
 			
@@ -218,7 +220,7 @@ function genTwistByR2(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r
 			theta += genTwist(renderer,[lastSet[j][0],lastSet[j][1],lastSet[j][2]]
 				,[pointSet[j][0],pointSet[j][1],pointSet[j][2]],r*5/4,twistRate,theta);
 		}
-		THETA = theta;
+		THETA[j] = theta;
 	}
 	
 	return pointSet;
