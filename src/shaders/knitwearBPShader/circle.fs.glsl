@@ -136,9 +136,9 @@ bool check2(vec3 mid,vec3 proj,float diss,float theta)
     yy /= uxlen;
     yy = 0.5 + yy;
     float xx = 0.5 + diss/uylen;
-    float tmp = xx;
+    float tmpp = xx;
     xx = yy;
-    yy = tmp;
+    yy = tmpp;
     return (check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25));
@@ -187,11 +187,13 @@ void main()
             flag = true;
             nowFragPos = now;
             
-            nowNormal =  normalize (now - (trace + normalize(cross(vD-vO,vA-vO)*tmp.x)
-            +normalize(trace - vO)*tmp.y));
+            // nowNormal =  normalize (now - (trace - normalize(cross(vA-vO,vD-vO)*uylen*tmp.x)
+            // + normalize(trace - vO)*uylen*tmp.y));
 
-            gl_FragColor = vec4(nowNormal,1 );
-            return;
+            nowNormal =  normalize (now - (trace - uylen*normalize(cross(vA-vO,vD-vO))*tmp.y
+            + uxlen*normalize(trace - vO)*tmp.x));
+            // gl_FragColor = vec4(nowNormal,1 );
+            // return;
 
             if(t < 1) nowNormal = vNormal;
             vec3 ans = vec3(0.0);
