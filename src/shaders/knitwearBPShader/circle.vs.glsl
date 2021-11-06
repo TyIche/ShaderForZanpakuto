@@ -12,11 +12,6 @@ uniform vec3 ut[4];
 uniform vec3 ub[4];
 uniform vec3 un[4];
 uniform vec3 uf[4];
-uniform vec3 uA;
-uniform vec3 uB;
-uniform vec3 uC;
-uniform vec3 uD;
-uniform vec3 uO;
 
 varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPos;

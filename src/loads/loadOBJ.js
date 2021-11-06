@@ -1,5 +1,5 @@
 function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, roughness=0.2,roughness2=0.2,ul = [],ur = [],ut = [],ub = [],un = [],uf = [],
-	ulenx = 0,uleny = 0,con = 1,uA = [],uB = [],uC = [],uD = [],uO = [],uTheta = 0) {
+	ulenx = 0,uleny = 0,con = 1,uTheta = 0) {
 
 	const manager = new THREE.LoadingManager();
 	manager.onProgress = function (item, loaded, total) {
@@ -64,7 +64,7 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 									break;
 								case 'KnitwearCircle':
 									material = buildKnitwearCircle(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[11,11,11],Lights,
-										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uA,uB,uC,uD,uO,uTheta,
+										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uTheta,
 										"./src/shaders/knitwearBPShader/circle.vs.glsl","./src/shaders/knitwearBPShader/circle.fs.glsl");
 									break;
 								case 'KullaContyMaterial':

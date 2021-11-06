@@ -139,7 +139,9 @@ bool check2(vec3 mid,vec3 proj,float diss,float theta)
     float tmpp = xx;
     xx = yy;
     yy = tmpp;
-    return (check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
+    return (check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)
+    // );
+    ||
         check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25));
 }
@@ -166,11 +168,11 @@ void main()
 
         // if(abs(diss) <= 10.0)
         // gl_FragColor = vec4(normalize(proj) ,1 );return;
-        // if(length(now - (viewIn + viewStep*float(STEP)*viewDir)) <= 1.01) 
-        // {
-        //     gl_FragColor = vec4(1,0 ,0 ,1 );
-        //     return;
-        // }
+        if(length(now - vA) <= 0.1) 
+        {
+            gl_FragColor = vec4(1,0 ,0 ,1 );
+            return;
+        }
 
         float T = acos(dot(normalize(proj - vO),normalize(vA - vO))) / (PI/2.0);
 
@@ -219,6 +221,8 @@ void main()
     }
     if(!flag)
     {   
+        // gl_FragColor = vec4(1,1 ,0 ,1);
+        // gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
         gl_FragDepthEXT = 128.0;
     }
 }

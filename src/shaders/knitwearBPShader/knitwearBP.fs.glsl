@@ -143,9 +143,9 @@ void main()
         float zz = abs(dis(vf,now));
 
         float theta = (zz - float(int(zz/utwistRate))*utwistRate)*(2.0*PI)/utwistRate + uTheta;
-        if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)||
-
-        check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
+        if(check(xx,yy,0.5+ 0.25*cos(theta),0.5+0.25*sin(theta),0.25)
+        // )
+        ||check(xx,yy,0.5 + 0.25 * cos(PI*2.0/3.0+theta), 0.5 + 0.25 * sin(PI*2.0/3.0+theta),0.25)||
         check(xx,yy,0.5 + 0.25 * cos(-PI*2.0/3.0 + theta), 0.5 + 0.25 * sin(-PI*2.0/3.0+theta),0.25))
         {
             flag = true;
@@ -185,7 +185,6 @@ void main()
     }
     if(!flag)
     {
-        
         gl_FragDepthEXT = 100.0;
     }
 }
