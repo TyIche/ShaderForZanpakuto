@@ -183,7 +183,7 @@ async function GAMES202Main() {
 
 
 	let quq = genTwistByR(renderer,1,7);
-	for(let i = 1;i<=10;i++)
+	for(let i = 1;i<=3;i++)
 	{
 		quq = genTwistByR2(renderer,1,7,14,quq);
 		quq = genTwistByR(renderer,1,7,14,quq);
