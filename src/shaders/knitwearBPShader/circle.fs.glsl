@@ -168,11 +168,11 @@ void main()
 
         // if(abs(diss) <= 10.0)
         // gl_FragColor = vec4(normalize(proj) ,1 );return;
-        if(length(now - vA) <= 0.1) 
-        {
-            gl_FragColor = vec4(1,0 ,0 ,1 );
-            return;
-        }
+        // if(length(now - vA) <= 0.1) 
+        // {
+        //     gl_FragColor = vec4(1,0 ,0 ,1 );
+        //     return;
+        // }
 
         float T = acos(dot(normalize(proj - vO),normalize(vA - vO))) / (PI/2.0);
 

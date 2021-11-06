@@ -67,7 +67,7 @@ async function GAMES202Main() {
 	let lightUp = [1, 0, 0];
 
 	Lights.addLight(lightPos,lightRadiance);
-	// Lights.addLight([30,30,30],lightRadiance);
+	Lights.addLight([0, 50, -100],lightRadiance);
 	// Lights.addLight(lightPosInv,lightRadiance);
 
 	// for(let i = -200;i <= 200;i+=20) 
@@ -179,7 +179,10 @@ async function GAMES202Main() {
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
-	genTwistByR(renderer,1,7);
+	THETA = 0;
+	let quq = genTwistByR(renderer,1,7);
+	quq = genTwistByR2(renderer,1,7,14,quq);
+	genTwistByR(renderer,1,7,14,quq);
 	// genCircleTwist(renderer,1,[-8*2+2,-1,22],5/4,7,[-Math.PI/2,Math.PI,0]);
 	// genTwist(renderer);
 
