@@ -180,9 +180,15 @@ async function GAMES202Main() {
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
 	THETA = 0;
+
+
 	let quq = genTwistByR(renderer,1,7);
-	quq = genTwistByR2(renderer,1,7,14,quq);
-	genTwistByR(renderer,1,7,14,quq);
+	for(let i = 1;i<=10;i++)
+	{
+		quq = genTwistByR2(renderer,1,7,14,quq);
+		quq = genTwistByR(renderer,1,7,14,quq);
+	}
+
 	// genCircleTwist(renderer,1,[-8*2+2,-1,22],5/4,7,[-Math.PI/2,Math.PI,0]);
 	// genTwist(renderer);
 
