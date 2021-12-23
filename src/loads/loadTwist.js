@@ -4,6 +4,7 @@ function genTwistByR(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r,
 	// genTwist(renderer,[-100,0,0],[100,0,0]);
 	// let H = 14;
 	let d =  2*r;
+	
 	let k3 = Math.sqrt(3);
 	
 	// let pointSet = [[-8*d,-r,H],[-8*d,-d-r,H],[-8*d,-2*d - r,H],[-8*d,-3 * d - r,H],
