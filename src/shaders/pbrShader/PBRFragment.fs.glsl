@@ -1,6 +1,10 @@
+
 #ifdef GL_ES
 precision mediump float;
 #endif
+
+
+#extension GL_EXT_frag_depth : enable
 
 uniform vec3 uLightPos;
 uniform vec3 uCameraPos;
@@ -16,6 +20,7 @@ uniform samplerCube uCubeTexture;
 varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPos;
 varying highp vec3 vNormal;
+varying mat4 vp;
 
 const float PI = 3.14159265359;
 
@@ -87,6 +92,8 @@ void main(void) {
   vec3 albedo = pow(texture2D(uAlbedoMap, vTextureCoord).rgb, vec3(2.2));
 
   vec3 N = normalize(vNormal);
+//   gl_FragColor = vec4(N,1.0);
+//   return;
   vec3 V = normalize(uCameraPos - vFragPos);
   float NdotV = max(dot(N, V), 0.0);
  
@@ -95,7 +102,7 @@ void main(void) {
 
   vec3 Lo = vec3(0.0);
 
-  vec3 L = normalize(uLightDir - vFragPos);
+  vec3 L = normalize(uLightPos - vFragPos);
 
   vec3 H = normalize(V + L);
   float NdotL = max(dot(N, L), 0.0); 
@@ -117,4 +124,6 @@ void main(void) {
   color = color / (color + vec3(1.0));
   color = pow(color, vec3(1.0/2.2)); 
   gl_FragColor = vec4(color, 1.0);
+
+  gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
 }

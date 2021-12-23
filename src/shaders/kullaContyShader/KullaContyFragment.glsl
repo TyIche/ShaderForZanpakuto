@@ -89,6 +89,8 @@ void main(void) {
   vec3 albedo = pow(texture2D(uAlbedoMap, vTextureCoord).rgb, vec3(2.2));
 
   vec3 N = normalize(vNormal);
+  // gl_FragColor = vec4(N,1.0);
+  // return;
   vec3 V = normalize(uCameraPos - vFragPos);
   float NdotV = max(dot(N, V), 0.0);
 

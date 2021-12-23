@@ -2,6 +2,7 @@
 precision mediump float;
 #endif
 #extension GL_EXT_frag_depth : enable
+
 uniform vec3 uLightPos[100];
 uniform vec3 uLightRadiance[100];
 uniform float uTheta;

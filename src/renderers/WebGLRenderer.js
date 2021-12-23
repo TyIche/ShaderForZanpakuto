@@ -19,12 +19,13 @@ class WebGLRenderer {
 
     render() {
         const gl = this.gl;
-        gl.getExtension("EXT_frag_depth");
+        // gl.getExtension("EXT_frag_depth");
+        console.log("isOPEN!");
         gl.clearColor(0.0, 0.0, 0.0, 1.0); // Clear to black, fully opaque
 
         gl.clearDepth(1.0); // Clear everything
         gl.enable(gl.DEPTH_TEST); // Enable depth testing
-        gl.depthFunc(gl.LEQUAL); // Near things obscure far things
+        gl.depthFunc(gl.L); // Near things obscure far things
 
         // gl.enable(gl.BLEND);
         // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);

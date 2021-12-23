@@ -9,13 +9,13 @@ uniform mat4 uProjectionMatrix;
 varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPos;
 varying highp vec3 vNormal;
-
+varying mat4 vp;
 
 void main(void) {
 
   vFragPos = (uModelMatrix * vec4(aVertexPosition, 1.0)).xyz;
   vNormal = (uModelMatrix * vec4(aNormalPosition, 0.0)).xyz;
-
+  vp = uProjectionMatrix * uViewMatrix;
   gl_Position = uProjectionMatrix * uViewMatrix * uModelMatrix * vec4(aVertexPosition, 1.0);
 
   vTextureCoord = aTextureCoord;

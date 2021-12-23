@@ -1,6 +1,7 @@
 #ifdef GL_ES
 precision mediump float;
 #endif
+#extension GL_EXT_frag_depth : enable
 
 uniform vec3 uLightPos[100];
 uniform vec3 uLightRadiance[100];
@@ -18,6 +19,7 @@ varying highp vec2 vTextureCoord;
 varying highp vec3 vFragPos;
 varying highp vec3 vNormal;
 varying highp vec3 vTangent;
+varying mat4 vp;
 
 const float PI = 3.14159265359;
 float DistributionGGX(vec3 N,vec3 H,float a1,float a2)
@@ -102,7 +104,7 @@ void main(void) {
     vec3 Lo = vec3(0.0);
     
     vec3 tmpColor = vec3(0.0);
-    for(int i = 0;i<100;i++)
+    for(int i = 0;i<1;i++)
     {
         if(uLightRadiance[i].z < 0.0) break;
         vec3 L = normalize(uLightPos[i] - vFragPos);
@@ -128,5 +130,6 @@ void main(void) {
         tmpColor += color;
     }
     gl_FragColor = vec4(tmpColor, 1.0);
+    gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
     // gl_FragColor = vec4(1,1,0,1);
 }

@@ -58,12 +58,12 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 									break;
 								case 'KnitwearMaterial':
 									console.log("=======================");
-									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[11,11,11],Lights,
+									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[0,11,0],Lights,
 										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uTheta,
 										"./src/shaders/knitwearBPShader/knitwearBP.vs.glsl","./src/shaders/knitwearBPShader/knitwearBP.fs.glsl");
 									break;
 								case 'KnitwearCircle':
-									material = buildKnitwearCircle(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[11,11,11],Lights,
+									material = buildKnitwearCircle(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[0,11,0],Lights,
 										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uTheta,
 										"./src/shaders/knitwearBPShader/circle.vs.glsl","./src/shaders/knitwearBPShader/circle.fs.glsl");
 									break;
@@ -72,7 +72,7 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 									,"./src/shaders/kullaContyShader/KullaContyVertex.glsl", "./src/shaders/kullaContyShader/KullaContyFragment.glsl");
 									break;
 								case 'PBRMaterial':
-									material = buildPBRMaterial(colorMap, metallic, roughness, brdflut, renderer.lights[0].entity,"./src/shaders/pbrShader/PBRVertex.glsl", "./src/shaders/pbrShader/PBRFragment.glsl");
+									material = buildPBRMaterial(colorMap, metallic, roughness, brdflut, renderer.lights[0].entity,"./src/shaders/pbrShader/PBRVertex.glsl", "./src/shaders/pbrShader/PBRFragment.fs.glsl");
 									break;
 								case 'anistropicMaterial':
 									console.log("quq");

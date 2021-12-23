@@ -13,7 +13,7 @@ var cubeMaps = [];
 var resolution = 2048;
 let brdflut, eavglut;
 let envMapPass = null;
-
+let bouns = 1;
 GAMES202Main();	
 async function GAMES202Main() {
 	// Init canvas and gl
@@ -21,6 +21,7 @@ async function GAMES202Main() {
 	canvas.width = window.screen.width;
 	canvas.height = window.screen.height;
 	const gl = canvas.getContext('webgl');
+	gl.getExtension("EXT_frag_depth");
 	if (!gl) {
 		alert('Unable to initialize WebGL. Your browser or machine may not support it.');
 		return;
@@ -53,21 +54,24 @@ async function GAMES202Main() {
 
 	// Add lights
 	// light - is open shadow map == true
-	let lightPos = [0, 50, 100];
-	// let lightPos = [100, 0, 100];
-	let lightPosInv = [0, -50, 30];
-	// let lightRadiance = [5, 5, 5];
-	let lightRadiance = [500,500,500];
-	let lightRadianceNerfed = [0.1,0.1,0.1];
+	// let lightPos = [0, 50, 100];
+	let lightPos = [0, -50, -50];
+	let lightPosInv = [0, 50,-100];
+	let lightRadiance = [25, 25, 25];
+	// let lightRadiance = [500,500,500];
+
+	let lightRadianceNerfed = [0.01,0.01,0.01];
 	lightDir = {
 		'x': 0,
 		'y': 0,
-		'z': -1,
+		'z': 0,
 	};
 	let lightUp = [1, 0, 0];
 
+	Lights.addLight([-50,350,-500],[70,70,70]);
 	Lights.addLight(lightPos,lightRadiance);
-	Lights.addLight([0, 50, -100],lightRadiance);
+	Lights.addLight([0,-100,-50],lightRadiance);
+	// Lights.addLight([0, 500, 500],lightRadiance);
 	// Lights.addLight(lightPosInv,lightRadiance);
 
 	// for(let i = -200;i <= 200;i+=20) 
@@ -75,13 +79,15 @@ async function GAMES202Main() {
 
 	// for(let i = -200;i <= 200;i+=20) 
 	// Lights.addLight([-3000,i,10],lightRadianceNerfed);
-	const directionLight = new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
+	const directionLight = 
+	new DirectionalLight(lightRadiance, lightPos, lightDir, lightUp, renderer.gl);
 	renderer.addLight(directionLight);
+
 	// directionLight = new DirectionalLight(lightRadiance, lightPos2, lightDir, lightUp, renderer.gl);
 	// renderer.addLight(directionLight);
 
 
-	Lights.addLight([0,0,0],[0,0,-1]);
+	// Lights.addLight([0,0,0],[0,0,-1]);
 	// Add Sphere
 	let img = new Image(); // brdfLUT
 	img.src = 'assets/ball/GGX_E_LUT.png';
@@ -122,17 +128,32 @@ async function GAMES202Main() {
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'KullaContyMaterial', Sphere3Transform, metallic, 0.75);
 	// let Sphere4Transform = setTransform(-140, 60, 0, 180, 180, 180, 0, Math.PI, 0);
 	// loadGLTF(renderer, 'assets/ball/', 'ball', 'KullaContyMaterial', Sphere4Transform, metallic, 0.95);
+	
+
+	//Tag 护手
+	// let tmpTrans = setTransform(0,-5,5,50,65,60,0,Math.PI/2,0);
+	// loadOBJ(renderer,'assets/testObj/','untitled','PBRMaterial',tmpTrans,metallic,0.9);
+
+	// let tmpTrans2 = setTransform(0,-90,5,4.6,30,1.4,0,0,0);
+	// loadOBJ(renderer,'assets/testObj/','testObj','PBRMaterial',tmpTrans2,metallic,0.9);
+	// Tag end
 
 
+	// let Sphere5Transform = setTransform(7, 250, 5, 7, 250, 1, 0, Math.PI, 0);
+	// let Sphere52Transform = setTransform(-7, 250, 5, 7, 250, 1, 0, Math.PI, 0);
 	
-	let Sphere5Transform = setTransform(5, -60, 0, 10/7.188224, 250, 1, 0, Math.PI, 0);
-	let Sphere52Transform = setTransform(-5, -60, 0, 10/7.188224, 250, 0.5, 0, Math.PI, 0);
+	// // loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
+	// //0.61,0.2);0.1 ,0.17);
+	// loadOBJ(renderer, 'assets/testObj/', 'di', 'anistropicMaterial', Sphere5Transform, metallic,0.1 ,0.17);
+	// loadOBJ(renderer, 'assets/testObj/', 'ren', 'anistropicMaterial', Sphere52Transform, metallic,0.2,1);
+
+	let Sphere5Transform = setTransform(7, 350, 5, 14/7.188224, 100, 1, 0, Math.PI, 0);
+	let Sphere52Transform = setTransform(-7, 350, 5, 14/7.188224, 100, 0.5, 0, Math.PI, 0);
 	
-	// loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
+	//Tag sword
 	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.1);
-	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.2, 0.61);
-	// let quq = setTransform(0, 0, 0, 10, 10, 1, 0, Math.PI/2, 0);
-	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', quq, metallic, 0.2, 0.61);
+	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.4, 0.61);
+	//end Tag
 
 	// genTwist(renderer);
 	
@@ -182,11 +203,11 @@ async function GAMES202Main() {
 	THETA = [0,0,0,0,0,0,0,0];
 
 
-	let quq = genTwistByR(renderer,1,7);
-	for(let i = 1;i<=3;i++)
+	let quq = genTwistByR(renderer,1,7,10);
+	for(let i = 1;i<=1;i++)
 	{
-		quq = genTwistByR2(renderer,1,7,14,quq);
-		quq = genTwistByR(renderer,1,7,14,quq);
+		quq = genTwistByR2(renderer,1,7,10,quq);
+		quq = genTwistByR(renderer,1,7,10,quq);
 	}
 
 	// genCircleTwist(renderer,1,[-8*2+2,-1,22],5/4,7,[-Math.PI/2,Math.PI,0]);
@@ -217,9 +238,9 @@ function setTransform(t_x, t_y, t_z, s_x, s_y, s_z, r_x = 0, r_y = 0, r_z = 0) {
 		modelTransX: t_x,
 		modelTransY: t_y,
 		modelTransZ: t_z,
-		modelScaleX: s_x,
-		modelScaleY: s_y,
-		modelScaleZ: s_z,
+		modelScaleX: s_x * bouns,
+		modelScaleY: s_y * bouns,
+		modelScaleZ: s_z * bouns,
 		modelRotateX: r_x,
 		modelRotateY: r_y,
 		modelRotateZ: r_z,
