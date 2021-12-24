@@ -70,7 +70,8 @@ async function GAMES202Main() {
 
 	Lights.addLight([-50,350,-500],[70,70,70]);
 	Lights.addLight(lightPos,lightRadiance);
-	Lights.addLight([0,-100,-50],lightRadiance);
+	Lights.addLight([0,0,50],lightRadiance);
+	Lights.addLight([0,0,-50],lightRadiance);
 	// Lights.addLight([0, 500, 500],lightRadiance);
 	// Lights.addLight(lightPosInv,lightRadiance);
 
@@ -131,11 +132,11 @@ async function GAMES202Main() {
 	
 
 	//Tag 护手
-	// let tmpTrans = setTransform(0,-5,5,50,65,60,0,Math.PI/2,0);
-	// loadOBJ(renderer,'assets/testObj/','untitled','PBRMaterial',tmpTrans,metallic,0.9);
+	let tmpTrans = setTransform(0,-5,5,50,65,60,0,Math.PI/2,0);
+	loadOBJ(renderer,'assets/testObj/','untitled','PBRMaterial',tmpTrans,metallic,0.9);
 
-	// let tmpTrans2 = setTransform(0,-90,5,4.6,30,1.4,0,0,0);
-	// loadOBJ(renderer,'assets/testObj/','testObj','PBRMaterial',tmpTrans2,metallic,0.9);
+	let tmpTrans2 = setTransform(0,-90,5,4.6,30,1.4,0,0,0);
+	loadOBJ(renderer,'assets/testObj/','testObj','PBRMaterial',tmpTrans2,metallic,0.9);
 	// Tag end
 
 
@@ -151,8 +152,8 @@ async function GAMES202Main() {
 	let Sphere52Transform = setTransform(-7, 350, 5, 14/7.188224, 100, 0.5, 0, Math.PI, 0);
 	
 	//Tag sword
-	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.1);
-	// loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.4, 0.61);
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.1);
+	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere52Transform, metallic, 0.4, 0.61);
 	//end Tag
 
 	// genTwist(renderer);
@@ -200,12 +201,15 @@ async function GAMES202Main() {
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
 	// genTwistByR(renderer,1,7);
-	THETA = [0,0,0,0,0,0,0,0];
-
+	THETA = [0,0,0,0];
+	THETA2 = [0,0,0,0];
 
 	let quq = genTwistByR(renderer,1,7,10);
-	for(let i = 1;i<=1;i++)
+	let quq2 = genTwistByR3(renderer,1,7,10); console.log(quq2);
+	for(let i = 1;i<=11;i++)
 	{
+		quq2 = genTwistByR4(renderer,1,7,10,quq2);
+		quq2 = genTwistByR3(renderer,1,7,10,quq2);
 		quq = genTwistByR2(renderer,1,7,10,quq);
 		quq = genTwistByR(renderer,1,7,10,quq);
 	}
