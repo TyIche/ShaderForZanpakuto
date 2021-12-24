@@ -28,6 +28,7 @@ async function GAMES202Main() {
 	}
 
 	// Add camera
+
 	const camera = new THREE.PerspectiveCamera(75, gl.canvas.clientWidth / gl.canvas.clientHeight, 1e-2, 100000000);
 	camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
 
@@ -38,7 +39,7 @@ async function GAMES202Main() {
 	}
 	setSize(canvas.clientWidth, canvas.clientHeight);
 	window.addEventListener('resize', () => setSize(canvas.clientWidth, canvas.clientHeight));
-
+	camera.up.set(0,-1,0)
 	// Add camera control
 	const cameraControls = new THREE.OrbitControls(camera, canvas);
 	cameraControls.enableZoom = true;
@@ -70,6 +71,8 @@ async function GAMES202Main() {
 
 	Lights.addLight([-50,350,-500],[70,70,70]);
 	Lights.addLight(lightPos,lightRadiance);
+	Lights.addLight([0,-100,-50],lightRadiance);
+	Lights.addLight([0,-150,-50],lightRadiance);
 	Lights.addLight([0,0,50],lightRadiance);
 	Lights.addLight([0,0,-50],lightRadiance);
 	// Lights.addLight([0, 500, 500],lightRadiance);
@@ -136,7 +139,7 @@ async function GAMES202Main() {
 	loadOBJ(renderer,'assets/testObj/','untitled','PBRMaterial',tmpTrans,metallic,0.9);
 
 	let tmpTrans2 = setTransform(0,-90,5,4.6,30,1.4,0,0,0);
-	loadOBJ(renderer,'assets/testObj/','testObj','PBRMaterial',tmpTrans2,metallic,0.9);
+	loadOBJ(renderer,'assets/testObj/','bing','PBRMaterial',tmpTrans2,metallic,0.9);
 	// Tag end
 
 
@@ -148,8 +151,8 @@ async function GAMES202Main() {
 	// loadOBJ(renderer, 'assets/testObj/', 'di', 'anistropicMaterial', Sphere5Transform, metallic,0.1 ,0.17);
 	// loadOBJ(renderer, 'assets/testObj/', 'ren', 'anistropicMaterial', Sphere52Transform, metallic,0.2,1);
 
-	let Sphere5Transform = setTransform(7, 350, 5, 14/7.188224, 100, 1, 0, Math.PI, 0);
-	let Sphere52Transform = setTransform(-7, 350, 5, 14/7.188224, 100, 0.5, 0, Math.PI, 0);
+	let Sphere5Transform = setTransform(9, 500, 5, 18/7.188224, 150, 1, 0, Math.PI, 0);
+	let Sphere52Transform = setTransform(-9, 500, 5, 18/7.188224, 150, 0.5, 0, Math.PI, 0);
 	
 	//Tag sword
 	loadOBJ(renderer, 'assets/testObj/', 'testObj', 'anistropicMaterial', Sphere5Transform, metallic, 0.17,0.1);
@@ -177,9 +180,10 @@ async function GAMES202Main() {
 	// Add SkyBox
 	for (let i = 0; i < envmap.length; i++) {
 		let urls = [
-			envmap[i] + '/posx.jpg',
-			envmap[i] + '/negx.jpg',
-			envmap[i] + '/posy.jpg',
+			envmap[i] + '/negx.jpg',envmap[i] + '/posx.jpg',
+			
+			envmap[i] + '/negy.jpg',
+			// envmap[i] + '/ice.png',
 			envmap[i] + '/negy.jpg',
 			envmap[i] + '/posz.jpg',
 			envmap[i] + '/negz.jpg',
