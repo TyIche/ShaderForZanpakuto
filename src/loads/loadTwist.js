@@ -15,7 +15,7 @@ function genTwistByR(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r,
 	let delta = [[0,0,0],[0,0,d],[4*d/k3*kk,-4*d*kk,0],[0,0,-d],[0,0,0],[0,0,0],[0,0,d-H],[]];
 	// let delta = [[0,0,0]];
 	
-	for(let j = 0 ;j<4;j++)
+	for(let j = 0 ;j<1;j++)
 	{
 		let theta = THETA[j];
 		for(let i in delta)
@@ -240,7 +240,7 @@ function genTwistByR2(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r
 	let delta = [[0,0,0],[0,0,-d],[-4*d/k3*kk,-4*d*kk,0],[0,0,d],[0,0,0],[0,0,0],[0,0,H-d],[]];
 	// let delta = [[0,0,0]];
 	
-	for(let j = 0 ;j< 4;j++)
+	for(let j = 0 ;j< 1;j++)
 	{
 		let theta = THETA[j];
 		for(let i in delta)
@@ -397,7 +397,7 @@ function genTwistByR4(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r
 				lastSet[j][0] = pointSet[j][0];
 				lastSet[j][1] = pointSet[j][1];
 				lastSet[j][2] = pointSet[j][2];
-				theta += Math.PI;
+				// theta += Math.PI/2;R2
 				theta += genCircleTwist(renderer,r*5/4,[lastSet[j][0]+r*5/4,lastSet[j][1],lastSet[j][2]],r*5/4,twistRate,
 				[-Math.PI/2,0,-Math.PI/2], Math.PI + theta);
 				theta += Math.PI;
@@ -419,7 +419,7 @@ function genTwistByR4(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r
 				
 				pointSet[j][0] -= r * 5/4;
 				pointSet[j][2] += r * 5/4;
-				theta+=Math.PI;
+				// theta-=Math.PI/2;
 				continue ;
 			}
 			else pointSet[j][0] += delta[i][0],pointSet[j][1] += delta[i][1],pointSet[j][2]+=delta[i][2];

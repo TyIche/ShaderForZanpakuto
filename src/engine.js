@@ -69,7 +69,7 @@ async function GAMES202Main() {
 	};
 	let lightUp = [1, 0, 0];
 
-	Lights.addLight([-50,350,-500],[70,70,70]);
+	Lights.addLight([0,350,-500],[70,70,70]);
 	Lights.addLight(lightPos,lightRadiance);
 	Lights.addLight([0,-100,-50],lightRadiance);
 	Lights.addLight([0,-150,-50],lightRadiance);
@@ -209,11 +209,11 @@ async function GAMES202Main() {
 	THETA2 = [0,0,0,0];
 
 	let quq = genTwistByR(renderer,1,7,10);
-	let quq2 = genTwistByR3(renderer,1,7,10); console.log(quq2);
-	for(let i = 1;i<=11;i++)
+	// let quq2 = genTwistByR3(renderer,1,7,10); console.log(quq2);
+	for(let i = 1;i<=1;i++)
 	{
-		quq2 = genTwistByR4(renderer,1,7,10,quq2);
-		quq2 = genTwistByR3(renderer,1,7,10,quq2);
+		// quq2 = genTwistByR4(renderer,1,7,10,quq2);
+		// quq2 = genTwistByR3(renderer,1,7,10,quq2);
 		quq = genTwistByR2(renderer,1,7,10,quq);
 		quq = genTwistByR(renderer,1,7,10,quq);
 	}
