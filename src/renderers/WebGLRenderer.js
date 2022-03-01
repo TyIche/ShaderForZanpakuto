@@ -60,7 +60,7 @@ class WebGLRenderer {
             // MeshR.draw(this.camera);
             // break;
         }
-        
+        // consol
         for (let i = 0; i < this.meshes.length; i++) {
             this.gl.useProgram(this.meshes[i].shader.program.glShaderProgram);
             // this.gl.uniform3fv(this.meshes[i].shader.program.uniforms.uLightPos, this.lights[l].entity.lightPos);

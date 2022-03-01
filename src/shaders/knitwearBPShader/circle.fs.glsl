@@ -168,11 +168,11 @@ void main()
 
         // if(abs(diss) <= 10.0)
         // gl_FragColor = vec4(normalize(proj) ,1 );return;
-        if(length(now - vA) <= 0.1) 
-        {
-            gl_FragColor = vec4(1,0 ,0 ,1 );
-            return;
-        }
+        // if(length(now - vA) <= 0.1) 
+        // {
+        //     gl_FragColor = vec4(1,0 ,0 ,1 );
+        //     return;
+        // }
 
         float T = acos(dot(normalize(proj - vO),normalize(vA - vO))) / (PI/2.0);
 
@@ -210,7 +210,9 @@ void main()
             // if(T <= 1.0)
             // gl_FragColor = vec4(1,1,1,1);
 
-            gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
+            // gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
+            highp float Z = length(vFragPos-uCameraPos),Ninv = 100.0,Finv = 0.001;
+            gl_FragDepthEXT = (Ninv - 1.0/Z)/(Ninv - Finv);
             return ;
         }
         float sdf = diss*diss + (length(vA - vO) - length(vO - proj)) * (length(vA - vO) - length(vO - proj));

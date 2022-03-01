@@ -181,15 +181,15 @@ async function GAMES202Main() {
 	for (let i = 0; i < envmap.length; i++) {
 		let urls = [
 			envmap[i] + '/negx.jpg',
-			// envmap[i] + '/posx.jpg',
-			envmap[i] + '/blue.png',
-			envmap[i] + '/yellow.png',
-			// envmap[i] + '/negy.jpg',
+			envmap[i] + '/posx.jpg',
+			// envmap[i] + '/blue.png',
+			// envmap[i] + '/yellow.png',
+			envmap[i] + '/negy.jpg',
 			// envmap[i] + '/ice.png',
 			
 			envmap[i] + '/negy.jpg',
-			envmap[i] + '/blue.png',
-			// envmap[i] + '/posz.jpg',
+			// envmap[i] + '/blue.png',
+			envmap[i] + '/posz.jpg',
 			envmap[i] + '/negz.jpg',
 			
 		];
@@ -214,7 +214,9 @@ async function GAMES202Main() {
 	THETA2 = [0,0,0,0];
 
 	let quq = genTwistByR(renderer,1,7,10);
-	let quq2 = genTwistByR3(renderer,1,7,10); console.log(quq2);
+	let quq2 = genTwistByR3(renderer,1,7,10); 
+	
+
 	for(let i = 1;i<=11;i++)
 	{
 		quq2 = genTwistByR4(renderer,1,7,10,quq2);
@@ -235,14 +237,16 @@ async function GAMES202Main() {
 	}
 
 	createGUI();
-
+	var cnt = 0;
 	function mainLoop() {
+		// console.log(cnt++);
 		cameraControls.update();
 
 		renderer.render();
 
 		requestAnimationFrame(mainLoop);
 	}
+	console.log("Start!!");
 	requestAnimationFrame(mainLoop);
 }
 

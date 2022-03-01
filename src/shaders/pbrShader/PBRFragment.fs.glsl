@@ -125,5 +125,9 @@ void main(void) {
   color = pow(color, vec3(1.0/2.2)); 
   gl_FragColor = vec4(color, 1.0);
 
-  gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
+  // gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w;
+  // gl_FragDepthEXT = 
+  // gl_FragDepthEXT = (vp*vec4(vFragPos,1.0)).z/(vp*vec4(vFragPos,1.0)).w*0.5 + 0.5;
+  highp float Z = length(vFragPos-uCameraPos),Ninv = 100.0,Finv = 0.001;
+  gl_FragDepthEXT = (Ninv - 1.0/Z)/(Ninv - Finv);
 }

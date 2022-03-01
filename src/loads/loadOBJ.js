@@ -3,7 +3,7 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 
 	const manager = new THREE.LoadingManager();
 	manager.onProgress = function (item, loaded, total) {
-		console.log(item, loaded, total);
+		// console.log(item, loaded, total);
 	};
 
 	function onProgress(xhr) {
@@ -57,7 +57,7 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 									material = buildEnvMapMaterial("./src/shaders/envMapShader/EnvMapVertex.glsl", "./src/shaders/envMapShader/EnvMapFragment.glsl");
 									break;
 								case 'KnitwearMaterial':
-									console.log("=======================");
+									// console.log("=======================");
 									material = buildKnitwearMaterial(colorMap,metallic,[0.005,0.005,0.005],[9,9,9],[0,11,0],Lights,
 										ul,ur,ut,ub,un,uf,ulenx,uleny,con,uTheta,
 										"./src/shaders/knitwearBPShader/knitwearBP.vs.glsl","./src/shaders/knitwearBPShader/knitwearBP.fs.glsl");
@@ -75,11 +75,11 @@ function loadOBJ(renderer, path, name, objMaterial, transform, metallic=1.0, rou
 									material = buildPBRMaterial(colorMap, metallic, roughness, brdflut, renderer.lights[0].entity,"./src/shaders/pbrShader/PBRVertex.glsl", "./src/shaders/pbrShader/PBRFragment.fs.glsl");
 									break;
 								case 'anistropicMaterial':
-									console.log("quq");
+									// console.log("quq");
 									material = buildAnistropicMaterial(colorMap, metallic, roughness, roughness2,brdflut, eavglut, Lights
 									,"./src/shaders/anistropicShader/AnistropicVertex.vs.glsl",
 									 "./src/shaders/anistropicShader/AnistropicFragment.fs.glsl");
-									console.log(material);
+									// console.log(material);
 									break;
 							}
 
