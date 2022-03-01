@@ -1,5 +1,6 @@
 class lights{
-    lightPoss;lightRadiances;
+    lightPoss;
+    lightRadiances;
     constructor()
     {
         this.size  = 0;

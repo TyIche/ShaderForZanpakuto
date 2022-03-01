@@ -15,7 +15,7 @@ function genTwistByR(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r,
 	let delta = [[0,0,0],[0,0,d],[4*d/k3*kk,-4*d*kk,0],[0,0,-d],[0,0,0],[0,0,0],[0,0,d-H],[]];
 	// let delta = [[0,0,0]];
 	
-	for(let j = 0 ;j<1;j++)
+	for(let j = 0 ;j<4;j++)
 	{
 		let theta = THETA[j];
 		for(let i in delta)
@@ -240,7 +240,7 @@ function genTwistByR2(renderer,r = 10,twistRate = 100,H = 14,pointSet = [[-8*2*r
 	let delta = [[0,0,0],[0,0,-d],[-4*d/k3*kk,-4*d*kk,0],[0,0,d],[0,0,0],[0,0,0],[0,0,H-d],[]];
 	// let delta = [[0,0,0]];
 	
-	for(let j = 0 ;j< 1;j++)
+	for(let j = 0 ;j< 4;j++)
 	{
 		let theta = THETA[j];
 		for(let i in delta)
