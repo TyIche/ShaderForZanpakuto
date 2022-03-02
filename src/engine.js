@@ -29,7 +29,7 @@ async function GAMES202Main() {
 
 	// Add camera
 
-	const camera = new THREE.PerspectiveCamera(75, gl.canvas.clientWidth / gl.canvas.clientHeight, 1e-2, 100000000);
+	const camera = new THREE.PerspectiveCamera(75, gl.canvas.clientWidth / gl.canvas.clientHeight, 1e-2, 1000000);
 	camera.position.set(cameraPosition[0], cameraPosition[1], cameraPosition[2]);
 
 	// Add resize listener
@@ -144,7 +144,7 @@ async function GAMES202Main() {
 
 
 	// let Sphere5Transform = setTransform(7, 250, 5, 7, 250, 1, 0, Math.PI, 0);
-	// let Sphere52Transform = setTransform(-7, 250, 5, 7, 250, 1, 0, Math.PI, 0);
+	// let Sphere52Transform = setTransform(-7, 250, 5, 0.7, 250, 0.1, 0, Math.PI, 0);
 	
 	// // loadGLTF(renderer, 'assets/ball/', 'ball', 'PBRMaterial', Sphere5Transform, metallic, 0.15);
 	// //0.61,0.2);0.1 ,0.17);
